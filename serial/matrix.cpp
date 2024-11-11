@@ -46,14 +46,16 @@ Matrix matrixExponentiation(Matrix base, int exp, int n)
 
 int main(int argc, char *argv[])
 {
-    if (argc < 3)
+    if (argc < 5)
     {
-        cerr << "Usage: " << argv[0] << " <input_file> <power>" << endl;
+        cerr << "Usage: " << argv[0] << " <input_file> <power> <city_i> <city_j>" << endl;
         return 1;
     }
 
     string filename = argv[1];
     int k = stoi(argv[2]);
+    int city_i = stoi(argv[3]);
+    int city_j = stoi(argv[4]);
 
     ifstream infile(filename);
     if (!infile)
@@ -64,6 +66,13 @@ int main(int argc, char *argv[])
 
     int n;
     infile >> n;
+
+    // validate i and j based on n
+    if (city_i < 0 || city_i >= n || city_j < 0 || city_j >= n)
+    {
+        cerr << "Invalid city index" << endl;
+        return 1;
+    }
 
     Matrix adjMatrix(n, vector<long long>(n, 0));
     for (int i = 0; i < n; ++i)
@@ -77,15 +86,8 @@ int main(int argc, char *argv[])
 
     Matrix resultMatrix = matrixExponentiation(adjMatrix, k, n);
 
-    cout << "Matricea de adiacență ridicată la puterea " << k << " este:" << endl;
-    for (const auto &row : resultMatrix)
-    {
-        for (const auto &value : row)
-        {
-            cout << value << " ";
-        }
-        cout << endl;
-    }
+    cout << "Number of ways of length " << k << " between city " << city_i << " and city " << city_j << " is: ";
+    cout << resultMatrix[city_i][city_j] << endl;
 
     return 0;
 }
