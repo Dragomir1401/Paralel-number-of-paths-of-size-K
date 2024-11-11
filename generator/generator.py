@@ -25,5 +25,9 @@ os.makedirs(output_dir, exist_ok=True)
 
 for name, matrix in matrices.items():
     filename = os.path.join(output_dir, f"{name}.txt")
-    np.savetxt(filename, matrix, fmt='%d')
+    with open(filename, "w") as f:
+        f.write(f"{matrix.shape[0]}\n")
+        # write the matrix on the following lines
+        for row in matrix:
+            f.write(" ".join(map(str, row)) + "\n")
     print(f"{name.capitalize()} matrix saved to {filename}")
