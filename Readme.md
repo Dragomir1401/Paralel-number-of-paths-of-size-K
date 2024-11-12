@@ -59,3 +59,67 @@ To compile the project, you can use the provided `Makefile` in each directory by
 ```bash
 make
 ```
+<<<<<<< HEAD
+=======
+
+```bash
+./matrix <input_file> <power> <city_i> <city_j>
+```
+
+```bash
+Where input file is: ../in/<size>.txt where size is small, medium, large.
+Power is the size of the road we are targetting.
+City i is the source.
+City j is the destination.
+```
+
+## Pseudocode
+
+Functie multiply(a, b, n)
+    Initializeaza result ca matrice n x n cu toate elementele 0
+    Pentru i de la 0 la n-1
+        Pentru j de la 0 la n-1
+            Pentru k de la 0 la n-1
+                result[i][j] = (result[i][j] + a[i][k] * b[k][j]) % MOD
+    Returneaza result
+
+Functie matrixExponentiation(base, exp, n)
+    Initializeaza result ca matrice identitate n x n
+    Cat timp exp > 0
+        Daca exp % 2 == 1
+            result = multiply(result, base, n)
+        base = multiply(base, base, n)
+        exp = exp div 2
+    Returneaza result
+
+Functie principala
+    Daca numarul de argumente < 5
+        Afiseaza "Utilizare: <nume_program> <fisier_intrare> <putere> <city_i> <city_j>"
+        Iesire cu cod 1
+
+    filename = argumentul 1
+    k = conversie la intreg a argumentului 2
+    city_i = conversie la intreg a argumentului 3
+    city_j = conversie la intreg a argumentului 4
+
+    Deschide fisierul filename pentru citire
+    Daca fisierul nu poate fi deschis
+        Afiseaza "Eroare la deschiderea fisierului: " + filename
+        Iesire cu cod 1
+
+    Citeste n din fisier
+
+    Daca city_i sau city_j nu sunt in intervalul [0, n-1]
+        Afiseaza "Indice de oras invalid"
+        Iesire cu cod 1
+
+    Initializeaza adjMatrix ca matrice n x n
+    Pentru i de la 0 la n-1
+        Pentru j de la 0 la n-1
+            Citeste adjMatrix[i][j] din fisier
+    Inchide fisierul
+
+    resultMatrix = matrixExponentiation(adjMatrix, k, n)
+
+    Afiseaza "Numarul de drumuri de lungime " + k + " intre orasul " + city_i + " si orasul " + city_j + " este: " + resultMatrix[city_i][city_j]
+>>>>>>> c76855771bac3170dba5fd341fe48016fb9dd7df
