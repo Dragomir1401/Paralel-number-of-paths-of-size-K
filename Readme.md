@@ -50,7 +50,7 @@ We have 3 different input sizes: small, medium, and large.
 - **large** - \( 600 \times 600 \)
   All profiling tests have been run with \( k = 10^{6} \)
 
-![Input Sizes](serial/output.png)
+![Input Sizes](serial/images/output.png)
 
 ## Compilation
 
@@ -59,8 +59,6 @@ To compile the project, you can use the provided `Makefile` in each directory by
 ```bash
 make
 ```
-<<<<<<< HEAD
-=======
 
 ```bash
 ./matrix <input_file> <power> <city_i> <city_j>
@@ -73,53 +71,41 @@ City i is the source.
 City j is the destination.
 ```
 
+## Profiling
+
+![Input Sizes](serial/images/Large_SS_Hotspots.png)
+
 ## Pseudocode
 
-Functie multiply(a, b, n)
-    Initializeaza result ca matrice n x n cu toate elementele 0
-    Pentru i de la 0 la n-1
-        Pentru j de la 0 la n-1
-            Pentru k de la 0 la n-1
-                result[i][j] = (result[i][j] + a[i][k] * b[k][j]) % MOD
-    Returneaza result
+```bash
+Function multiply(a, b, n)
+  result = n x n matrix of 0s
+  For i, j, k in 0..n-1
+    result[i][j] = (result[i][j] + a[i][k] * b[k][j]) % MOD
+  Return result
 
-Functie matrixExponentiation(base, exp, n)
-    Initializeaza result ca matrice identitate n x n
-    Cat timp exp > 0
-        Daca exp % 2 == 1
-            result = multiply(result, base, n)
-        base = multiply(base, base, n)
-        exp = exp div 2
-    Returneaza result
+Function matrixExponentiation(base, exp, n)
+  result = identity matrix n x n
+  While exp > 0
+    If exp % 2 == 1, result = multiply(result, base, n)
+    base = multiply(base, base, n)
+    exp = exp // 2
+  Return result
 
-Functie principala
-    Daca numarul de argumente < 5
-        Afiseaza "Utilizare: <nume_program> <fisier_intrare> <putere> <city_i> <city_j>"
-        Iesire cu cod 1
+Main function
+  If argument count < 5, Print "Usage" and Exit
+  Read filename, k, city_i, city_j from arguments
 
-    filename = argumentul 1
-    k = conversie la intreg a argumentului 2
-    city_i = conversie la intreg a argumentului 3
-    city_j = conversie la intreg a argumentului 4
+  Open file filename
+  If file can't be opened, Print "Error" and Exit
 
-    Deschide fisierul filename pentru citire
-    Daca fisierul nu poate fi deschis
-        Afiseaza "Eroare la deschiderea fisierului: " + filename
-        Iesire cu cod 1
+  Read n from file
+  If city_i or city_j not in [0, n-1], Print "Invalid index" and Exit
 
-    Citeste n din fisier
+  adjMatrix = n x n matrix from file
+  resultMatrix = matrixExponentiation(adjMatrix, k, n)
 
-    Daca city_i sau city_j nu sunt in intervalul [0, n-1]
-        Afiseaza "Indice de oras invalid"
-        Iesire cu cod 1
+  Print "Paths of length " + k + " between " + city_i + " and " + city_j + ": " + resultMatrix[city_i][city_j
 
-    Initializeaza adjMatrix ca matrice n x n
-    Pentru i de la 0 la n-1
-        Pentru j de la 0 la n-1
-            Citeste adjMatrix[i][j] din fisier
-    Inchide fisierul
 
-    resultMatrix = matrixExponentiation(adjMatrix, k, n)
-
-    Afiseaza "Numarul de drumuri de lungime " + k + " intre orasul " + city_i + " si orasul " + city_j + " este: " + resultMatrix[city_i][city_j]
->>>>>>> c76855771bac3170dba5fd341fe48016fb9dd7df
+```
