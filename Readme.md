@@ -26,6 +26,10 @@ Lets say we want to find out all the roads which take 13 hours between some citi
 - \( A^4 = A^2 \times A^2 \)
 - \( A^2 = A \times A \)
 
+## Architecture used
+
+**12th Gen Inteli(R) Core(TM) i7-12700H 2.30 GHz**
+
 ### Use of Parallelism
 
 We will use MPI to distribute the computation of each power described on a different mpi worker. The other point of improvement is doing the actual matrix multiplication on threads, mpi or openmp workers. This way we can optimise every part of the algorithm.
@@ -40,6 +44,11 @@ We will use MPI to distribute the computation of each power described on a diffe
 ### Size of inputs
 
 We have 3 different input sizes: small, medium and large.
+
+- **small** - \( 100 \times 100 \)
+- **medium** - \( 300 \times 300 \)
+- **large** - \( 600 \times 600 \)
+  All profiling tests have been run with \( k = 10^{6} \)
 
 ## Compilation
 
