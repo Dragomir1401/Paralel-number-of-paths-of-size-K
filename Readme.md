@@ -8,24 +8,23 @@ Let say we have n cities that are connected somehow to one another. If city A is
 
 This algorithm serves as a load balancer guide for very big maps in order to find out how many different ways we can route cars in order to avoid high traffic on long roads between multiple cities.
 
+## Complexity
+
+- **Time Complexity:** \( O(n^3 \cdot \log(k)) \)
+- **Space Complexity:** \( O(n^2) \)
+
 ### Proposal
 
 Our solution is to compute the power of the adjancy matrix of this graph of cities. But making that power of matrices will take a lot of time. For that we will use fast logarithmic exponentiation. We can do even better using parallel programming.
 
 Lets say we want to find out all the roads which take 13 hours between some cities described by the matrix A.
 
-\[
-A^{13} = A^8 \times A^4 \times A^1
-\]
-\[
-A^8 = A^4 \times A^4
-\]
-\[
-A^4 = A^2 \times A^2
-\]
-\[
-A^2 = A \times A
-\]
+**Matrix Powers:**
+
+- \( A^{13} = A^8 \times A^4 \times A^1 \)
+- \( A^8 = A^4 \times A^4 \)
+- \( A^4 = A^2 \times A^2 \)
+- \( A^2 = A \times A \)
 
 ### Use of Parallelism
 
