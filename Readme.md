@@ -13,7 +13,7 @@ This algorithm serves as a load balancer guide for very big maps in order to fin
 - **Time Complexity:** \( O(n^3 \cdot \log(k)) \)
 - **Space Complexity:** \( O(n^2) \)
 
-### Proposal
+### Proposal of solution
 
 Our solution is to compute the power of the adjacency matrix of this graph of cities. But making that power of matrices will take a lot of time. For that we will use fast logarithmic exponentiation. We can do even better using parallel programming.
 
