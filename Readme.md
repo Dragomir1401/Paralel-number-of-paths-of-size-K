@@ -50,7 +50,8 @@ We have 3 different input sizes: small, medium, and large.
 - **large** - \( 600 \times 600 \)
   All profiling tests have been run with \( k = 10^{6} \)
 
-![Input Sizes](serial/images/output.png)
+<img src="serial/images/times.png" alt="Input Sizes" width="500" height="300"/>
+
 
 ## Compilation
 
@@ -73,7 +74,13 @@ City j is the destination.
 
 ## Profiling
 
-![Input Sizes](serial/images/Large_SS_Hotspots.png)
+<img src="serial/images/Large_SS_Hotspots.png" alt="Input Sizes" width="850" height="300"/>
+
+We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of \( O(n^3) \). 
+
+<img src="serial/images/OnlyOneThread.png" alt="Input Sizes" width="1000" height="300"/>
+
+As VTune indicates the the thread usage is very poor and needs improvements.
 
 ## Pseudocode
 
