@@ -113,5 +113,5 @@ Main function
   adjMatrix = n x n matrix from file
   resultMatrix = matrixExponentiation(adjMatrix, k, n)
 
-  Print "Paths of length " + k + " between " + city_i + " and " + city_j + ": " + resultMatrix[city_i][city_j
+  Print "Paths of length " + k + " between " + city_i + " and " + city_j + ": " + resultMatrix[city_i][city_j]
 ```
