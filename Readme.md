@@ -74,11 +74,11 @@ City j is the destination.
 
 ## Profiling
 
-<img src="serial/images/Large_SS_Hotspots.png" alt="Input Sizes" width="850" height="300"/>
+<img src="serial/images/Large_SS_Hotspots.png" alt="Hotspots" width="850" height="300"/>
 
 We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of \( O(n^3) \). 
 
-<img src="serial/images/OnlyOneThread.png" alt="Input Sizes" width="1000" height="300"/>
+<img src="serial/images/OnlyOneThread.png" alt="Input Sizes Times" width="1000" height="300"/>
 
 As VTune indicates the the thread usage is very poor and needs improvements.
 
