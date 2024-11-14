@@ -4,7 +4,7 @@ import os
 def generate_matrices(seed):
     np.random.seed(seed)
     
-    sizes = {100: "small", 300: "medium", 600: "large"}
+    sizes = {300: "small", 450: "medium", 600: "large"}
     matrices = {}
 
     for size in sizes:
