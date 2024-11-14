@@ -10,8 +10,8 @@ This algorithm serves as a load balancer guide for very big maps in order to fin
 
 ## Complexity
 
-- **Time Complexity:** \( O(n^3 \cdot \log(k)) \)
-- **Space Complexity:** \( O(n^2) \)
+- **Time Complexity:** $ O(n^3 \cdot \log(k)) $
+- **Space Complexity:** $ O(n^2) $
 
 ### Proposal of solution
 
@@ -21,10 +21,10 @@ Let's say we want to find out all the roads which take 13 hours between some cit
 
 **Matrix Powers:**
 
-- \( A^{13} = A^8 \times A^4 \times A^1 \)
-- \( A^8 = A^4 \times A^4 \)
-- \( A^4 = A^2 \times A^2 \)
-- \( A^2 = A \times A \)
+- $ A^{13} = A^8 \times A^4 \times A^1 $
+- $ A^8 = A^4 \times A^4 $
+- $ A^4 = A^2 \times A^2 $
+- $ A^2 = A \times A $
 
 ## Architecture used
 
@@ -45,12 +45,12 @@ We will use MPI to distribute the computation of each power described on a diffe
 
 We have 3 different input sizes: small, medium, and large.
 
-- **small** - \( 100 \times 100 \)
-- **medium** - \( 300 \times 300 \)
-- **large** - \( 600 \times 600 \)
-  All profiling tests have been run with \( k = 10^{6} \)
+- **small** - $ 100 \times 100 $
+- **medium** - $ 300 \times 300 $
+- **large** - $ 600 \times 600 $
+  All profiling tests have been run with $ k = 10^{6} $
 
-<img src="serial/images/times.png" alt="Input Sizes" width="500" height="300"/>
+<img src="serial/images/Times.png" alt="Input Sizes" width="500" height="300"/>
 
 
 ## Compilation
@@ -76,7 +76,7 @@ City j is the destination.
 
 <img src="serial/images/Large_SS_Hotspots.png" alt="Hotspots" width="850" height="300"/>
 
-We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of \( O(n^3) \). 
+We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of $ O(n^3) $. 
 
 <img src="serial/images/OnlyOneThread.png" alt="Input Sizes Times" width="1000" height="300"/>
 
@@ -104,7 +104,7 @@ Main function
   Read filename, k, city_i, city_j from arguments
 
   Open file filename
-  If file can't be opened, Print "Error" and Exit
+  If file cant be opened, Print "Error" and Exit
 
   Read n from file
   If city_i or city_j not in [0, n-1], Print "Invalid index" and Exit
@@ -113,6 +113,4 @@ Main function
   resultMatrix = matrixExponentiation(adjMatrix, k, n)
 
   Print "Paths of length " + k + " between " + city_i + " and " + city_j + ": " + resultMatrix[city_i][city_j
-
-
 ```
