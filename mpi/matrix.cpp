@@ -1,25 +1,48 @@
 #include <mpi.h>
 #include <iostream>
 #include <vector>
-#include <fstream> // Include fstream for file operations
+#include <fstream>
 
 using namespace std;
 using Matrix = vector<vector<long long>>;
 
 const int MOD = 1e9 + 7;
 
-// Function to multiply a portion of the matrix
-void localMultiply(const Matrix &a, const Matrix &b, Matrix &result, int startRow, int endRow, int n)
+// Parallel matrix multiplication using MPI
+void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int rank, int size)
 {
+    // Calculate the range of rows for this process
+    int rowsPerProcess = n / size;
+    int startRow = rank * rowsPerProcess;
+    int endRow = (rank == size - 1) ? n : startRow + rowsPerProcess;
+
+    // Local result buffer for this process's portion of rows
+    Matrix localResult(endRow - startRow, vector<long long>(n, 0));
+
+    // Broadcast Matrix B to all processes
+    for (int i = 0; i < n; ++i)
+    {
+        MPI_Bcast(const_cast<long long *>(B[i].data()), n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+    }
+
+    // Perform local computation for assigned rows
     for (int i = startRow; i < endRow; ++i)
     {
         for (int j = 0; j < n; ++j)
         {
             for (int k = 0; k < n; ++k)
             {
-                result[i][j] = (result[i][j] + a[i][k] * b[k][j]) % MOD;
+                localResult[i - startRow][j] = (localResult[i - startRow][j] + A[i][k] * B[k][j]) % MOD;
             }
         }
+    }
+
+    // Gather the local results into the final result matrix on the root process
+    for (int i = startRow; i < endRow; ++i)
+    {
+        MPI_Gather(localResult[i - startRow].data(), n, MPI_LONG_LONG,
+                   rank == 0 ? result[i].data() : nullptr,
+                   n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
     }
 }
 
@@ -43,6 +66,7 @@ int main(int argc, char *argv[])
 
     if (rank == 0)
     {
+        // Only the root process reads the matrix
         filename = argv[1];
         k = stoi(argv[2]);
         city_i = stoi(argv[3]);
@@ -69,32 +93,36 @@ int main(int argc, char *argv[])
         infile.close();
     }
 
-    // Broadcast size of the matrix
+    // Broadcast matrix size and exponent to all processes
     MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Bcast(&k, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Broadcast matrix B to all processes
+    // Broadcast the adjacency matrix to all processes
     if (rank != 0)
     {
         adjMatrix = Matrix(n, vector<long long>(n));
-        resultMatrix = Matrix(n, vector<long long>(n, 0));
     }
     for (int i = 0; i < n; ++i)
     {
         MPI_Bcast(adjMatrix[i].data(), n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
     }
 
-    // Determine the rows assigned to this process
-    int rowsPerProcess = n / size;
-    int startRow = rank * rowsPerProcess;
-    int endRow = (rank == size - 1) ? n : startRow + rowsPerProcess;
-
-    // Local computation of matrix multiplication
-    localMultiply(adjMatrix, adjMatrix, resultMatrix, startRow, endRow, n);
-
-    // Gather results at root process
-    for (int i = startRow; i < endRow; ++i)
+    // Perform matrix exponentiation
+    Matrix base = adjMatrix;
+    resultMatrix = Matrix(n, vector<long long>(n, 0));
+    for (int i = 0; i < n; ++i)
     {
-        MPI_Gather(resultMatrix[i].data(), n, MPI_LONG_LONG, resultMatrix[i].data(), n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+        resultMatrix[i][i] = 1; // Initialize result as identity matrix
+    }
+
+    while (k > 0)
+    {
+        if (k % 2 == 1)
+        {
+            mpiMatrixMultiply(resultMatrix, base, resultMatrix, n, rank, size); // Multiply result * base
+        }
+        mpiMatrixMultiply(base, base, base, n, rank, size); // Multiply base * base
+        k /= 2;
     }
 
     if (rank == 0)
