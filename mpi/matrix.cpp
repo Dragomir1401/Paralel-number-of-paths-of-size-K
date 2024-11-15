@@ -1,7 +1,7 @@
 #include <mpi.h>
 #include <iostream>
 #include <vector>
-#include <fstream>
+#include <fstream> // Include fstream for file operations
 
 using namespace std;
 using Matrix = vector<vector<long long>>;
@@ -76,6 +76,7 @@ int main(int argc, char *argv[])
     if (rank != 0)
     {
         adjMatrix = Matrix(n, vector<long long>(n));
+        resultMatrix = Matrix(n, vector<long long>(n, 0));
     }
     for (int i = 0; i < n; ++i)
     {
@@ -87,33 +88,17 @@ int main(int argc, char *argv[])
     int startRow = rank * rowsPerProcess;
     int endRow = (rank == size - 1) ? n : startRow + rowsPerProcess;
 
-    // Local buffer for storing partial results for this process
-    Matrix localResult(n, vector<long long>(n, 0));
-    localMultiply(adjMatrix, adjMatrix, localResult, startRow, endRow, n);
-
-    // Buffer on the root process to gather all results
-    Matrix gatherBuffer;
-    if (rank == 0)
-    {
-        gatherBuffer = Matrix(n, vector<long long>(n, 0));
-    }
+    // Local computation of matrix multiplication
+    localMultiply(adjMatrix, adjMatrix, resultMatrix, startRow, endRow, n);
 
     // Gather results at root process
     for (int i = startRow; i < endRow; ++i)
     {
-        MPI_Gather(localResult[i].data(), n, MPI_LONG_LONG,
-                   (rank == 0 ? gatherBuffer[i].data() : nullptr),
-                   n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+        MPI_Gather(resultMatrix[i].data(), n, MPI_LONG_LONG, resultMatrix[i].data(), n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
     }
 
     if (rank == 0)
     {
-        // Copy gathered results into the result matrix
-        for (int i = startRow; i < endRow; ++i)
-        {
-            resultMatrix[i] = gatherBuffer[i];
-        }
-
         cout << "Number of ways of length " << k << " between city " << city_i << " and city " << city_j << " is: ";
         cout << resultMatrix[city_i][city_j] << endl;
     }
