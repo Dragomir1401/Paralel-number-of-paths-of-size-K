@@ -22,9 +22,9 @@ inline long long &getElement(Matrix &mat, int i, int j, int n) {
 
 // Funcție pentru înmulțirea paralelă a matricilor folosind MPI
 void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int rank, int size) {
-    int rowsPerProcess = n / size;
+    int rowsPerProcess = (n + size - 1) / size; // Împărțim n în mod echitabil între procese
     int startRow = rank * rowsPerProcess;
-    int endRow = (rank == size - 1) ? n : startRow + rowsPerProcess;
+    int endRow = min(startRow + rowsPerProcess, n);
 
     Matrix localResult((endRow - startRow) * n, 0);
 
