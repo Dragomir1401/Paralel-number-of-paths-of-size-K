@@ -129,6 +129,16 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 
 <img src="Pthreads/images/grafic_turn_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
+## Pthreads profiling
+
+- **8 threads**
+
+<img src="Pthreads/images/8threadsVtune.png" alt="PthreadsVsSerial" width="800" height="360"/>
+
+- **16 threads**
+
+<img src="Pthreads/images/16threadsVtune.png" alt="PthreadsVsSerial" width="800" height="360"/>
+
 ## Timeline
 
 - **12 November 2024** - Project documentation and serial implementation. Profiling for serial code.
