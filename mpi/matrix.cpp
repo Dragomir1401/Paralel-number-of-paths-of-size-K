@@ -35,6 +35,8 @@ void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, 
         {
             for (int k = 0; k < n; ++k)
             {
+
+                
                 localResult[i - startRow][j] = (localResult[i - startRow][j] + A[i][k] * B[k][j]) % MOD;
             }
         }
