@@ -21,7 +21,7 @@ Let's say we want to find out all the roads which take 13 hours between some cit
 
 **Matrix Powers:**
 
- $$ A^{13} = A^8 \times A^4 \times A^1 $$
+$$ A^{13} = A^8 \times A^4 \times A^1 $$
  $$ A^8 = A^4 \times A^4 $$
  $$ A^4 = A^2 \times A^2 $$
  $$ A^2 = A \times A $$
@@ -45,14 +45,13 @@ We will use MPI to distribute the computation of each power described on a diffe
 
 We have 3 different input sizes: small, medium, and large.
 
-$$ small -  300 \times 300 $$
-$$ medium -  450 \times 450 $$
-$$ small -  600 \times 600 $$
+$$ small - 300 \times 300 $$
+$$ medium - 450 \times 450 $$
+$$ small - 600 \times 600 $$
 
 All profiling tests have been run with $$ k = 10^{6} $$
 
 <img src="serial/images/Times.png" alt="Input Sizes" width="600" height="350"/>
-
 
 ## Compilation
 
@@ -77,7 +76,7 @@ City j is the destination.
 
 <img src="serial/images/Large_SS_Hotspots.png" alt="Hotspots" width="850" height="300"/>
 
-We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of $$ O(n^3) $$. 
+We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of $$ O(n^3) $$.
 
 <img src="serial/images/OnlyOneThread.png" alt="Input Sizes Times" width="1000" height="300"/>
 
@@ -115,3 +114,23 @@ Main function
 
   Print "Paths of length " + k + " between " + city_i + " and " + city_j + ": " + resultMatrix[city_i][city_j]
 ```
+
+## Pthreads Implementation
+
+We will use Pthreads to parallelize the matrix multiplication function. We will split the matrix into blocks and each thread will compute a block of the result matrix.
+
+## Serial vs Pthreads time comparison
+
+<img src="Pthreads/images/serival_vs_phtreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+
+## Pthreads number of threads comparison
+
+<img src="Pthreads/images/grafic_liniar_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+
+<img src="Pthreads/images/grafic_turn_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="300"/>
+
+## Timeline
+
+- **12 November 2024** - Project documentation and serial implementation. Profiling for serial code.
+- **19 November 2024** - Parallel implementation with Pthreads. Time comparisons and profiling on parallel code.
+- **26 November 2024** - MPI implementation. Time comparisons and profiling on parallel code. Pthreads vs MPI comparison. MPI vs Serial comparison.
