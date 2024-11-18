@@ -76,7 +76,7 @@ City j is the destination.
 
 <img src="serial/images/Large_SS_Hotspots.png" alt="Hotspots" width="850" height="300"/>
 
-We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of $$ O(n^3) $$.
+We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of $$ O(n^3) $$
 
 <img src="serial/images/OnlyOneThread.png" alt="Input Sizes Times" width="1000" height="300"/>
 
@@ -138,6 +138,18 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 - **16 threads**
 
 <img src="Pthreads/images/16threadsVtune.png" alt="PthreadsVsSerial" width="800" height="360"/>
+
+## Pthreads Hotspots
+
+- **8 threads**
+
+<img src="Pthreads/images/hotspots8threads.png" alt="PthreadsVsSerial" width="800" height="260"/>
+
+- **16 threads**
+
+<img src="Pthreads/images/hotspots16threads.png" alt="PthreadsVsSerial" width="800" height="260"/>
+
+
 
 ## Timeline
 
