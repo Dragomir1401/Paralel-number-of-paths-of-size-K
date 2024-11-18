@@ -1,4 +1,4 @@
 build:
 	g++ -o matrix main.cpp -lpthread
 run:
-	./matrix ../in/small.txt 1000000 1 2 8
+	./matrix ../in/large.txt 1000000 1 2 16

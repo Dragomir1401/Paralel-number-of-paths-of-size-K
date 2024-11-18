@@ -1,11 +1,13 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <bits/stdc++.h>
 
 using namespace std;
 using Matrix = vector<vector<long long>>;
+ofstream fout("matrix.out");
 
-const int MOD = 1e9 + 7;
+const long long MOD = 1e9 + 7;
 
 Matrix multiply(const Matrix &a, const Matrix &b, int n)
 {
@@ -16,7 +18,7 @@ Matrix multiply(const Matrix &a, const Matrix &b, int n)
         {
             for (int k = 0; k < n; ++k)
             {
-                result[i][j] = (result[i][j] + a[i][k] * b[k][j]) % MOD;
+                result[i][j] = (result[i][j] + (a[i][k] * b[k][j]) % MOD) % MOD;
             }
         }
     }
@@ -46,6 +48,7 @@ Matrix matrixExponentiation(Matrix base, int exp, int n)
 
 int main(int argc, char *argv[])
 {
+    auto start = chrono::high_resolution_clock::now();
     if (argc < 5)
     {
         cerr << "Usage: " << argv[0] << " <input_file> <power> <city_i> <city_j>" << endl;
@@ -88,6 +91,19 @@ int main(int argc, char *argv[])
 
     cout << "Number of ways of length " << k << " between city " << city_i << " and city " << city_j << " is: ";
     cout << resultMatrix[city_i][city_j] << endl;
+
+    /*for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            fout << resultMatrix[i][j] << " ";
+        }
+
+        fout << '\n';
+    }*/
+
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+
+    cout << "Execution time: " << duration.count() << " seconds" << '\n';
 
     return 0;
 }

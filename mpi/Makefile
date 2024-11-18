@@ -16,6 +16,12 @@ endif
 # Source file
 SRC = matrix.cpp
 
+# Number of processes for mpirun
+NPROCS = 8
+
+# Arguments for the executable
+ARGS = ../in/small.txt 1000000 1 2
+
 # Default target
 all: $(TARGET)
 
@@ -23,6 +29,12 @@ all: $(TARGET)
 $(TARGET): $(SRC)
 	$(CXX) $(CXXFLAGS) $(SRC) $(LDFLAGS) -o $(TARGET)
 
+# Run target
+.PHONY: run
+run: $(TARGET)
+	@mpirun -np $(NPROCS) ./$(TARGET) $(ARGS)
+
 # Clean target
+.PHONY: clean
 clean:
 	rm -f matrix matrix.exe
