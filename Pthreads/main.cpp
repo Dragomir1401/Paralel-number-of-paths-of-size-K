@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <cassert>
+#include <bits/stdc++.h>
 
 using namespace std;
 using Matrix = vector<vector<long long>>;
@@ -98,10 +99,11 @@ void pthreadMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int
     pthread_barrier_destroy(&barrier);
 }
 
-int main(int argc, char *argv[])
-{
-    if (argc < 6)
-    {
+
+
+int main(int argc, char *argv[]) {
+    auto start = chrono::high_resolution_clock::now();
+    if (argc < 6) {
         cerr << "Usage: " << argv[0] << " <input_file> <power> <city_i> <city_j> <num_threads>" << endl;
         return 1;
     }
@@ -159,18 +161,14 @@ int main(int argc, char *argv[])
         k /= 2;
     }
 
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            fout << resultMatrix[i][j] << " ";
-        }
-        fout << '\n';
-    }
-
     // Afișăm rezultatul
     cout << "Number of ways of length " << kk << " between city " << city_i << " and city " << city_j << " is: ";
     cout << resultMatrix[city_i][city_j] << endl;
+
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+
+    cout << "Execution time: " << duration.count() << " seconds" << '\n';
 
     return 0;
 }

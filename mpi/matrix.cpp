@@ -2,6 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <chrono>
+#include <cassert>
+#include <bits/stdc++.h>
 
 using namespace std;
 using Matrix = vector<vector<long long>>;
@@ -32,6 +35,8 @@ void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, 
         {
             for (int k = 0; k < n; ++k)
             {
+
+                
                 localResult[i - startRow][j] = (localResult[i - startRow][j] + A[i][k] * B[k][j]) % MOD;
             }
         }
@@ -48,6 +53,8 @@ void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, 
 
 int main(int argc, char *argv[])
 {
+    auto start = chrono::high_resolution_clock::now();
+
     MPI_Init(&argc, &argv);
 
     int rank, size;
@@ -132,5 +139,10 @@ int main(int argc, char *argv[])
     }
 
     MPI_Finalize();
+
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+
+    cout << "Execution time: " << duration.count() << " seconds" << '\n';
     return 0;
 }
