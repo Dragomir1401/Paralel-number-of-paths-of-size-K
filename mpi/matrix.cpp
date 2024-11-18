@@ -4,55 +4,50 @@
 #include <fstream>
 #include <chrono>
 #include <cassert>
-#include <bits/stdc++.h>
 
 using namespace std;
-using Matrix = vector<vector<long long>>;
+using Matrix = vector<long long>;
 
 const int MOD = 1e9 + 7;
 
-// Parallel matrix multiplication using MPI
-void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int rank, int size)
-{
-    // Calculate the range of rows for this process
+// Funcție pentru a transforma un index 2D în 1D într-o matrice alocată contiguă (versiune constantă)
+inline const long long &getElement(const Matrix &mat, int i, int j, int n) {
+    return mat[i * n + j];
+}
+
+// Funcție pentru a transforma un index 2D în 1D într-o matrice alocată contiguă (versiune non-constantă)
+inline long long &getElement(Matrix &mat, int i, int j, int n) {
+    return mat[i * n + j];
+}
+
+// Funcție pentru înmulțirea paralelă a matricilor folosind MPI
+void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int rank, int size) {
     int rowsPerProcess = n / size;
     int startRow = rank * rowsPerProcess;
     int endRow = (rank == size - 1) ? n : startRow + rowsPerProcess;
 
-    // Local result buffer for this process's portion of rows
-    Matrix localResult(endRow - startRow, vector<long long>(n, 0));
+    Matrix localResult((endRow - startRow) * n, 0);
 
-    // Broadcast Matrix B to all processes
-    for (int i = 0; i < n; ++i)
-    {
-        MPI_Bcast(const_cast<long long *>(B[i].data()), n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
-    }
+    // Broadcast pentru întreaga matrice B
+    MPI_Bcast(const_cast<long long *>(B.data()), n * n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    // Perform local computation for assigned rows
-    for (int i = startRow; i < endRow; ++i)
-    {
-        for (int j = 0; j < n; ++j)
-        {
-            for (int k = 0; k < n; ++k)
-            {
-
-                
-                localResult[i - startRow][j] = (localResult[i - startRow][j] + A[i][k] * B[k][j]) % MOD;
+    // Calcul local al rândurilor
+    for (int i = startRow; i < endRow; ++i) {
+        for (int j = 0; j < n; ++j) {
+            for (int k = 0; k < n; ++k) {
+                getElement(localResult, i - startRow, j, n) =
+                    (getElement(localResult, i - startRow, j, n) + getElement(A, i, k, n) * getElement(B, k, j, n)) % MOD;
             }
         }
     }
 
-    // Gather the local results into the final result matrix on the root process
-    for (int i = startRow; i < endRow; ++i)
-    {
-        MPI_Gather(localResult[i - startRow].data(), n, MPI_LONG_LONG,
-                   rank == 0 ? result[i].data() : nullptr,
-                   n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
-    }
+    // Colectare rezultate în procesul root
+    MPI_Gather(localResult.data(), (endRow - startRow) * n, MPI_LONG_LONG,
+               rank == 0 ? result.data() : nullptr, (endRow - startRow) * n, MPI_LONG_LONG,
+               0, MPI_COMM_WORLD);
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     auto start = chrono::high_resolution_clock::now();
 
     MPI_Init(&argc, &argv);
@@ -61,8 +56,7 @@ int main(int argc, char *argv[])
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    if (rank == 0 && argc < 5)
-    {
+    if (rank == 0 && argc < 5) {
         cerr << "Usage: " << argv[0] << " <input_file> <power> <city_i> <city_j>" << endl;
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
@@ -71,71 +65,62 @@ int main(int argc, char *argv[])
     int k, city_i, city_j, n;
     Matrix adjMatrix, resultMatrix;
 
-    if (rank == 0)
-    {
-        // Only the root process reads the matrix
+    if (rank == 0) {
         filename = argv[1];
         k = stoi(argv[2]);
         city_i = stoi(argv[3]);
         city_j = stoi(argv[4]);
 
         ifstream infile(filename);
-        if (!infile)
-        {
+        if (!infile) {
             cerr << "Error opening file: " << filename << endl;
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
 
         infile >> n;
-        adjMatrix = Matrix(n, vector<long long>(n));
-        resultMatrix = Matrix(n, vector<long long>(n, 0));
+        adjMatrix.resize(n * n);
+        resultMatrix.resize(n * n);
 
-        for (int i = 0; i < n; ++i)
-        {
-            for (int j = 0; j < n; ++j)
-            {
-                infile >> adjMatrix[i][j];
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < n; ++j) {
+                infile >> getElement(adjMatrix, i, j, n);
             }
         }
         infile.close();
     }
 
-    // Broadcast matrix size and exponent to all processes
+    // Broadcast pentru dimensiunea matricei și exponent
     MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&k, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Broadcast the adjacency matrix to all processes
-    if (rank != 0)
-    {
-        adjMatrix = Matrix(n, vector<long long>(n));
-    }
-    for (int i = 0; i < n; ++i)
-    {
-        MPI_Bcast(adjMatrix[i].data(), n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+    // Alocare contiguă pentru matrice în toate procesele
+    if (rank != 0) {
+        adjMatrix.resize(n * n);
+        resultMatrix.resize(n * n);
     }
 
-    // Perform matrix exponentiation
+    MPI_Bcast(adjMatrix.data(), n * n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
+
+    // Inițializare matrice identitate
     Matrix base = adjMatrix;
-    resultMatrix = Matrix(n, vector<long long>(n, 0));
-    for (int i = 0; i < n; ++i)
-    {
-        resultMatrix[i][i] = 1; // Initialize result as identity matrix
+    resultMatrix.resize(n * n);
+    for (int i = 0; i < n; ++i) {
+        getElement(resultMatrix, i, i, n) = 1;
     }
 
-    while (k > 0)
-    {
-        if (k % 2 == 1)
-        {
-            mpiMatrixMultiply(resultMatrix, base, resultMatrix, n, rank, size); // Multiply result * base
+    // Ridicare la putere folosind MPI
+    int originalK = k;
+    while (k > 0) {
+        if (k % 2 == 1) {
+            mpiMatrixMultiply(resultMatrix, base, resultMatrix, n, rank, size);
         }
-        mpiMatrixMultiply(base, base, base, n, rank, size); // Multiply base * base
+        mpiMatrixMultiply(base, base, base, n, rank, size);
         k /= 2;
     }
 
-    if (rank == 0)
-    {
-        cout << "Number of ways of length " << k << " between city " << city_i << " and city " << city_j << " is: ";
-        cout << resultMatrix[city_i][city_j] << endl;
+    if (rank == 0) {
+        cout << "Number of ways of length " << originalK << " between city " << city_i << " and city " << city_j << " is: ";
+        cout << getElement(resultMatrix, city_i, city_j, n) << endl;
     }
 
     MPI_Finalize();
@@ -143,6 +128,9 @@ int main(int argc, char *argv[])
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> duration = end - start;
 
-    cout << "Execution time: " << duration.count() << " seconds" << '\n';
+    if (rank == 0) {
+        cout << "Execution time: " << duration.count() << " seconds" << '\n';
+    }
+
     return 0;
 }
