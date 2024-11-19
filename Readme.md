@@ -166,11 +166,11 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 ### MPI profiling
 
-- **8 threads**
+- **8 processes**
 
 <img src="mpi/images/8mpiCores.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
-- **16 threads**
+- **16 processes**
 
 <img src="mpi/images/16mpiCores.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
