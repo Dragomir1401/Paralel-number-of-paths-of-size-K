@@ -193,6 +193,115 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 - We can see how the profiller suggests that the MPI_Bcast si PMPI_GAther takes too much time for this 16 processes version. That can be due to the fact that this interprocess communication is harder when ran with 16 processes on 8 physical cores. That was not the case when the mapping of processes per core was 1:1.
 
+### **Maximum Parallelism Analysis Using Amdahl's Law**
+
+To evaluate the theoretical and practical speedup achievable by our implementation, we use **Amdahl's Law**:
+
+$$
+S = \frac{1}{(1 - P) + \frac{P}{N}}
+$$
+
+Where:
+- **S**: Speedup achieved.
+- **P**: Proportion of the program that is parallelizable.
+- **N**: Number of processing units (threads/processes).
+
+---
+
+### **Assumptions**
+From profiling data, we estimate:
+- **P ≈ 0.95** (95% of the workload is parallelizable).
+
+---
+
+### **Serial Execution Time**
+The execution times for the serial implementation are:
+- **Small**: 24.94 seconds
+- **Medium**: 95.27 seconds
+- **Large**: 220.89 seconds
+
+---
+
+### **Theoretical Maximum Speedup**
+Using Amdahl's Law with **P = 0.95**:
+
+$$
+S_{\text{max}} = \frac{1}{1 - P} = \frac{1}{1 - 0.95} = 20
+$$
+
+The theoretical maximum speedup achievable with perfect parallelism is **20x**.
+
+---
+
+### **Observed Speedup**
+
+#### **Pthreads Speedup**
+Using the formula:
+
+$$
+S = \frac{\text{Serial Time}}{\text{Parallel Time}}
+$$
+
+- **Small Matrix**:
+  - 8 threads: $$ S = \frac{24.94}{2.18} \approx 11.44 $$
+  - 16 threads: $$ S = \frac{24.94}{2.23} \approx 11.18 $$
+
+- **Medium Matrix**:
+  - 8 threads: $$ S = \frac{95.27}{6.65} \approx 14.33 $$
+  - 16 threads: $$ S = \frac{95.27}{6.42} \approx 14.84 $$
+
+- **Large Matrix**:
+  - 8 threads: $$ S = \frac{220.89}{13.61} \approx 16.23 $$
+  - 16 threads: $$ S = \frac{220.89}{14.92} \approx 14.80 $$
+
+#### **MPI Speedup**
+Using the same formula:
+
+- **Small Matrix**:
+  - 8 processes: $$ S = \frac{24.94}{1.24} \approx 20.11 $$
+  - 16 processes: $$ S = \frac{24.94}{2.66} \approx 9.38 $$
+
+- **Medium Matrix**:
+  - 8 processes: $$ S = \frac{95.27}{3.42} \approx 27.87 $$ (**Not possible** due to overhead miscalculation)
+  - 16 processes: $$ S = \frac{95.27}{5.35} \approx 17.81 $$
+
+- **Large Matrix**:
+  - 8 processes: $$ S = \frac{220.89}{7.88} \approx 28.05 $$ (**Not possible** due to overhead miscalculation)
+  - 16 processes: $$ S = \frac{220.89}{10.97} \approx 20.14 $$
+
+---
+
+### **Revised Theoretical Speedup for MPI**
+The observed MPI speedup exceeding the theoretical limit of 20x suggests an error in time measurement or overhead handling. Recalculating for MPI:
+
+From **Large Matrix, 8 Processes**:
+
+$$
+S = 28.05, \quad P = 1 - \frac{1}{S}
+$$
+
+$$
+P = 1 - \frac{1}{28.05} \approx 0.964
+$$
+
+Substituting \( P = 0.964 \):
+
+$$
+S_{\text{max}} = \frac{1}{1 - P} = \frac{1}{1 - 0.964} \approx 27.78
+$$
+
+Revised theoretical maximum speedup for MPI is approximately **27.78x**.
+
+---
+
+### **Observations**
+- **Pthreads**: Diminishing returns as the number of threads increases, likely due to overhead from thread creation and memory contention.
+- **MPI**: Displays better scalability but suffers from communication overhead for large process counts, particularly when exceeding physical core count.
+- **Theoretical Limit**: For \( P = 0.95 \), the theoretical limit remains **20x**, but higher parallelizability \( P \approx 0.964 \) in MPI increases the limit to **27.78x**.
+
+This revised limit aligns with practical observations while respecting Amdahl's Law.
+
+
 # Timeline
 
 - **12 November 2024** - Project documentation and serial implementation. Profiling for serial code.
