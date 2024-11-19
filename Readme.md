@@ -115,21 +115,21 @@ Main function
   Print "Paths of length " + k + " between " + city_i + " and " + city_j + ": " + resultMatrix[city_i][city_j]
 ```
 
-## Pthreads Implementation
+# Pthreads Implementation
 
 We will use Pthreads to parallelize the matrix multiplication function. We will split the matrix into blocks and each thread will compute a block of the result matrix.
 
-## Serial vs Pthreads time comparison
+### Serial vs Pthreads time comparison
 
 <img src="Pthreads/images/serival_vs_phtreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
-## Pthreads number of threads comparison
+### Pthreads number of threads comparison
 
 <img src="Pthreads/images/grafic_liniar_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
 <img src="Pthreads/images/grafic_turn_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
-## Pthreads profiling
+### Pthreads profiling
 
 - **8 threads**
 
@@ -139,7 +139,7 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 
 <img src="Pthreads/images/16threadsVtune.png" alt="PthreadsVsSerial" width="800" height="360"/>
 
-## Pthreads Hotspots
+### Pthreads Hotspots
 
 - **8 threads**
 
@@ -150,8 +150,41 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 <img src="Pthreads/images/hotspots16threads.png" alt="PthreadsVsSerial" width="800" height="260"/>
 
 
+# MPI Implementation
 
-## Timeline
+We will use MPI to parallelize the actual matrix multiplication by sending each process a piece of the matrix.
+
+### Serial vs MPI time comparison
+
+<img src="mpi/images/grafic_mpi_8_16_serial.png" alt="PthreadsVsSerial" width="800" height="500"/>
+
+### MPI number of processes comparison
+
+<img src="mpi/images/grafic_liniar_8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="500"/>
+
+<img src="mpi/images/grafic_vertical8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="300"/>
+
+### MPI profiling
+
+- **8 threads**
+
+<img src="mpi/images/8mpiCores.png" alt="PthreadsVsSerial" width="800" height="300"/>
+
+- **16 threads**
+
+<img src="mpi/images/16mpiCores.png" alt="PthreadsVsSerial" width="800" height="300"/>
+
+### MPI profiling
+
+- **8 processes**
+
+<img src="mpi/images/8mpiHotspots.png" alt="PthreadsVsSerial" width="800" height="300"/>
+
+- **16 processes**
+
+<img src="mpi/images/16mpiHotspots.png" alt="PthreadsVsSerial" width="800" height="340"/>
+
+# Timeline
 
 - **12 November 2024** - Project documentation and serial implementation. Profiling for serial code.
 - **19 November 2024** - Parallel implementation with Pthreads. Time comparisons and profiling on parallel code.
