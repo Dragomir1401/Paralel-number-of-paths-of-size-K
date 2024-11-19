@@ -145,10 +145,14 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 
 <img src="Pthreads/images/hotspots8threads.png" alt="PthreadsVsSerial" width="800" height="260"/>
 
+- We can see how the profiller says that most of the time is spent inside the multiply matrices function and the other significant part is spent in the threads creation logic.
+
 - **16 threads**
 
 <img src="Pthreads/images/hotspots16threads.png" alt="PthreadsVsSerial" width="800" height="260"/>
 
+
+- Same scenario as in the 8 threads version, most of the time is spent as expected inside the multiplication function.
 
 # MPI Implementation
 
@@ -180,9 +184,14 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 <img src="mpi/images/8mpiHotspots.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
+- We can see the increased performance and no red flag indicated by the profiller when we run with a mapping of 1:1 process to cores.
+
+
 - **16 processes**
 
 <img src="mpi/images/16mpiHotspots.png" alt="PthreadsVsSerial" width="800" height="340"/>
+
+- We can see how the profiller suggests that the MPI_Bcast si PMPI_GAther takes too much time for this 16 processes version. That can be due to the fact that this interprocess communication is harder when ran with 16 processes on 8 physical cores. That was not the case when the mapping of processes per core was 1:1.
 
 # Timeline
 
