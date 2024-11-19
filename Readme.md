@@ -187,5 +187,5 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 # Timeline
 
 - **12 November 2024** - Project documentation and serial implementation. Profiling for serial code.
-- **19 November 2024** - Parallel implementation with Pthreads. Time comparisons and profiling on parallel code.
-- **26 November 2024** - MPI implementation. Time comparisons and profiling on parallel code. Pthreads vs MPI comparison. MPI vs Serial comparison.
+- **19 November 2024** - Parallel implementation with Pthreads. Time comparisons and profiling on parallel code. Pthreads vs Serial comparison.
+- **26 November 2024** - MPI implementation. Time comparisons and profiling on parallel code. MPI vs Serial comparison.
