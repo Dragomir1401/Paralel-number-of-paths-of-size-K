@@ -121,7 +121,7 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 
 ### Serial vs Pthreads time comparison
 
-<img src="pthreads/images/serial_vs_pthreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+<img src="Pthreads/images/serial_vs_pthreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
 ### Pthreads number of threads comparison
 
@@ -159,7 +159,7 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 ### Serial vs MPI time comparison
 
-<img src="mpi/images/grafic_mpi_8_16_serial.png" alt="PthreadsVsSerial" width="800" height="500"/>
+<img src="mpi/images/grafic_mpi_8_16_serial.png" alt="MpiVsSerial" width="800" height="500"/>
 
 ### MPI number of processes comparison
 
