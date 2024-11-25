@@ -193,7 +193,7 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 ### MPI vs Pthreads vs Serial
 
-<img src="general/images/mpiVsPthreadsVsSerial.png" alt="PthreadsVsSerial" width="800" height="340"/>
+<img src="general/images/mpiVsPthreadsVsSerial.png" alt="PthreadsVsSerial" width="800" height="450"/>
 
 ### **Maximum Parallelism Analysis Using Amdahl's Law**
 
