@@ -191,6 +191,10 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 - We can see how the profiller suggests that the MPI_Bcast si PMPI_GAther takes too much time for this 16 processes version. That can be due to the fact that this interprocess communication is harder when ran with 16 processes on 8 physical cores. That was not the case when the mapping of processes per core was 1:1.
 
+### MPI vs Pthreads vs Serial
+
+<img src="general/images/mpiVsPthreadsVsSerial.png" alt="PthreadsVsSerial" width="800" height="340"/>
+
 ### **Maximum Parallelism Analysis Using Amdahl's Law**
 
 To evaluate the theoretical and practical speedup achievable by our implementation, we use **Amdahl's Law**:
