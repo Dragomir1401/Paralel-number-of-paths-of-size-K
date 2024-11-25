@@ -121,7 +121,7 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 
 ### Serial vs Pthreads time comparison
 
-<img src="Pthreads/images/serival_vs_phtreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+<img src="pthreads/images/serial_vs_pthreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
 ### Pthreads number of threads comparison
 
