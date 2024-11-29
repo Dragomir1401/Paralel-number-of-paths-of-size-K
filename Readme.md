@@ -195,6 +195,44 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 <img src="general/images/mpiVsPthreadsVsSerial.png" alt="PthreadsVsSerial" width="800" height="450"/>
 
+### Hybrid MPI - PThreads implementation
+
+In order to further experiment with the possibility of using parallel programming for this problem, we implemented a hybrid solution combining MPI and PThreads. This implementation is designed to parallelize the computation of matrix exponentiation for determining the number of paths of size \( k \) between cities, represented in the adjacency matrix of the graph.
+
+**Parallelization Approach:**
+
+- **MPI:** Used to distribute the workload across multiple processes. Each MPI process computes a part of the matrix power, splitting the total exponentiation work among all available processes. Communication is facilitated using `MPI_Bcast` for broadcasting the adjacency matrix and `MPI_Send`/`MPI_Recv` for sharing partial results between processes.
+
+- **PThreads:** Within each MPI process, threads are created to handle row-wise parallel matrix multiplication. Each thread operates on a subset of rows in the matrix to compute partial results, leveraging multi-core architectures.
+
+**Implementation Highlights:**
+
+1. **Matrix Multiplication with PThreads:**
+
+   - Each thread calculates a range of rows in the resulting matrix.
+   - Synchronization is ensured using `pthread_barrier_t` to maintain consistency during intermediate computations.
+
+2. **Matrix Exponentiation:**
+
+   - Implemented using repeated squaring. Each MPI process computes a local portion of the matrix power, utilizing PThreads for matrix multiplication in each step.
+
+3. **Combining Results:**
+
+   - After local computations, MPI processes send their results to the root process.
+   - The root process combines the partial results using matrix multiplication to obtain the final matrix.
+
+4. **Performance Optimization:**
+   - Efficient division of work between MPI and PThreads minimizes communication overhead and optimizes resource utilization.
+   - Modular arithmetic ensures no overflow occurs in large intermediate computations.
+
+This hybrid implementation demonstrates the capability of MPI and PThreads to scale computations efficiently, addressing both inter-node and intra-node parallelism.
+
+### Hybrid MPI - Pthreads vs Serial
+
+<img src="Pthreads_MPI/images/Threads_MPI_Serial.png" alt="MpiVsSerial" width="800" height="500"/>
+
+<img src="Pthreads_MPI/images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
+
 ### **Maximum Parallelism Analysis Using Amdahl's Law**
 
 To evaluate the theoretical and practical speedup achievable by our implementation, we use **Amdahl's Law**:
