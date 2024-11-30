@@ -233,6 +233,12 @@ This hybrid implementation demonstrates the capability of MPI and PThreads to sc
 
 <img src="Pthreads_MPI/images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
 
+### Time comparison between all implementations
+
+<img src="general/images/AllComparison.png" alt="MpiVsSerial" width="800" height="500"/>
+
+We can see how even compared to the enhanced hybrid version, the mpi with 8 processes beats their times with an important margin.
+
 ### **Maximum Parallelism Analysis Using Amdahl's Law**
 
 To evaluate the theoretical and practical speedup achievable by our implementation, we use **Amdahl's Law**:
