@@ -32,4 +32,4 @@ clean:
 
 # Run the program with default parameters
 run:
-	mpirun --oversubscribe -np 16 ./$(TARGET) ../in/small.txt 1000000 1 2 8
+	mpirun --oversubscribe -np 16 ./$(TARGET) ../in/large.txt 1000000 1 2 16
