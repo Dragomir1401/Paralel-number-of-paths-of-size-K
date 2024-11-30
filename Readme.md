@@ -233,6 +233,26 @@ This hybrid implementation demonstrates the capability of MPI and PThreads to sc
 
 <img src="Pthreads_MPI/images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
 
+### Hybrid MPI - Pthreads Profiling
+
+- **8 threads and 8 processes**
+
+<img src="Pthreads_MPI/images/88Profiler.png" alt="MpiVsSerial" width="800" height="600"/>
+
+- **8 threads and 16 processes**
+
+<img src="Pthreads_MPI/images/8t16pProfiler.png" alt="MpiVsSerial" width="800" height="600"/>
+
+- **16 threads and 8 processes**
+
+<img src="Pthreads_MPI/images/16t8pProfiler.png" alt="MpiVsSerial" width="800" height="600"/>
+
+- **16 threads and 16 processes**
+
+<img src="Pthreads_MPI/images/16t16pProfiler.png" alt="MpiVsSerial" width="800" height="600"/>
+
+We can see how none of the hybrid implementations come close to the level of paralellism obtained by the solely MPI implementation.
+
 ### Time comparison between all implementations
 
 <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="800" height="500"/>
