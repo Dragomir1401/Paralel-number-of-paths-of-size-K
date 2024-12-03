@@ -387,3 +387,4 @@ This revised limit aligns with practical observations while respecting Amdahl's 
 - **12 November 2024** - Project documentation and serial implementation. Profiling for serial code.
 - **19 November 2024** - Parallel implementation with Pthreads. Time comparisons and profiling on parallel code. Pthreads vs Serial comparison.
 - **26 November 2024** - MPI implementation. Time comparisons and profiling on parallel code. MPI vs Serial comparison.
+- **3 December 2024** - Hybrid MPI - Pthreads implementation, time measurements and profiling on this version.
