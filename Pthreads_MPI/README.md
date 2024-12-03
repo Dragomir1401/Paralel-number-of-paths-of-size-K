@@ -15,3 +15,5 @@ Large (600x600):
 - 8 threads, 16 processes:  115.14 seconds
 - 16 threads, 8 processes:  50.6849 seconds
 - 16 threads, 16 processes: 104.953 seconds
+
+Timpii
