@@ -12,7 +12,7 @@ ofstream fout("matrix.out");
 const long long MOD = 1e9 + 7;
 pthread_barrier_t barrier;
 
-// Structura pentru a transmite argumentele către fiecare thread
+// Structure for passing data to threads
 struct ThreadData
 {
     const Matrix *A;
@@ -35,7 +35,7 @@ void *threadMatrixMultiplyAndCopy(void *arg)
     int startRow = data->startRow;
     int endRow = data->endRow;
 
-    // Calculul elementelor din intervalul de rânduri asignat acestui thread
+    // Calcululate the local result
     for (int i = startRow; i < endRow; ++i)
     {
         for (int j = 0; j < n; ++j)
@@ -49,10 +49,10 @@ void *threadMatrixMultiplyAndCopy(void *arg)
         }
     }
 
-    // Barieră pentru sincronizare
+    // Barrier to synchronize threads
     pthread_barrier_wait(&barrier);
 
-    // Copierea rezultatelor din tempResult în result
+    // Copy the local result to the final result
     for (int i = startRow; i < endRow; ++i)
     {
         for (int j = 0; j < n; ++j)
@@ -64,17 +64,17 @@ void *threadMatrixMultiplyAndCopy(void *arg)
     pthread_exit(nullptr);
 }
 
-// Funcția de înmulțire a matricilor folosind Pthreads
+// Function to multiply two matrices
 void pthreadMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int numThreads)
 {
     Matrix tempResult(n, vector<long long>(n, 0));
     vector<pthread_t> threads(numThreads);
     vector<ThreadData> threadData(numThreads);
 
-    // Inițializăm bariera
+    // Initialise the barrier
     pthread_barrier_init(&barrier, nullptr, numThreads);
 
-    // Împărțirea rândurilor între thread-uri
+    // Spread the rows among threads
     int rowsPerThread = n / numThreads;
     int remainingRows = n % numThreads;
 
@@ -85,17 +85,17 @@ void pthreadMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int
 
         threadData[i] = {&A, &B, &tempResult, &result, startRow, endRow, n};
 
-        // Crearea thread-urilor
+        // Create the threads
         pthread_create(&threads[i], nullptr, threadMatrixMultiplyAndCopy, &threadData[i]);
     }
 
-    // Așteptarea finalizării thread-urilor
+    // Wait for all threads to finish
     for (int i = 0; i < numThreads; ++i)
     {
         pthread_join(threads[i], nullptr);
     }
 
-    // Distrugem bariera
+    // Destroy the barrier
     pthread_barrier_destroy(&barrier);
 }
 
@@ -114,12 +114,13 @@ int main(int argc, char *argv[]) {
     int city_j = stoi(argv[4]);
     int numThreads = stoi(argv[5]);
 
-    assert(numThreads > 0 && (numThreads & (numThreads - 1)) == 0); // Verificăm că numThreads este o putere a lui 2
+    // Check if the number of threads is a power of 2
+    assert(numThreads > 0 && (numThreads & (numThreads - 1)) == 0);
 
     int n;
     Matrix adjMatrix, resultMatrix;
 
-    // Citirea matricei din fișier
+    // Read the input file
     ifstream infile(filename);
     if (!infile)
     {
@@ -140,7 +141,7 @@ int main(int argc, char *argv[]) {
     }
     infile.close();
 
-    // Inițializăm matricea rezultat ca matricea identitate
+    // Initialise the result matrix
     for (int i = 0; i < n; ++i)
     {
         resultMatrix[i][i] = 1;
@@ -150,7 +151,7 @@ int main(int argc, char *argv[]) {
 
     int kk = k;
 
-    // Ridicarea la putere folosind înmulțirea de matrici cu Pthreads
+    // Raise the matrix to the power k
     while (k > 0)
     {
         if (k % 2 == 1)
@@ -161,7 +162,7 @@ int main(int argc, char *argv[]) {
         k /= 2;
     }
 
-    // Afișăm rezultatul
+    // Print the result
     cout << "Number of ways of length " << kk << " between city " << city_i << " and city " << city_j << " is: ";
     cout << resultMatrix[city_i][city_j] << endl;
 

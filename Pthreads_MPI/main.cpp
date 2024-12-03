@@ -12,8 +12,9 @@ using Matrix = vector<long long>;
 const int MOD = 1e9 + 7;
 pthread_barrier_t barrier;
 
-// Structura pentru datele Pthreads
-struct ThreadData {
+// Structure for the data that is passed to each thread
+struct ThreadData
+{
     const Matrix *A;
     const Matrix *B;
     Matrix *result;
@@ -22,8 +23,9 @@ struct ThreadData {
     int n;
 };
 
-// Funcție pentru înmulțirea matricelor folosind Pthreads
-void *threadMatrixMultiply(void *arg) {
+// Each thread takes a range of rows and multiplies them
+void *threadMatrixMultiply(void *arg)
+{
     ThreadData *data = (ThreadData *)arg;
     const Matrix &A = *data->A;
     const Matrix &B = *data->B;
@@ -33,10 +35,13 @@ void *threadMatrixMultiply(void *arg) {
     int endRow = data->endRow;
 
     // Calcul local al rândurilor
-    for (int i = startRow; i < endRow; ++i) {
-        for (int j = 0; j < n; ++j) {
+    for (int i = startRow; i < endRow; ++i)
+    {
+        for (int j = 0; j < n; ++j)
+        {
             long long sum = 0;
-            for (int k = 0; k < n; ++k) {
+            for (int k = 0; k < n; ++k)
+            {
                 sum = (sum + (A[i * n + k] * B[k * n + j]) % MOD) % MOD;
             }
             result[i * n + j] = sum;
@@ -46,15 +51,17 @@ void *threadMatrixMultiply(void *arg) {
     pthread_exit(nullptr);
 }
 
-// Funcție de înmulțire paralelă folosind Pthreads
-void pthreadMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int numThreads) {
+// Parallel matrix multiplication using Pthreads
+void pthreadMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int numThreads)
+{
     vector<pthread_t> threads(numThreads);
     vector<ThreadData> threadData(numThreads);
 
     int rowsPerThread = n / numThreads;
     int remainingRows = n % numThreads;
 
-    for (int i = 0; i < numThreads; ++i) {
+    for (int i = 0; i < numThreads; ++i)
+    {
         int startRow = i * rowsPerThread;
         int endRow = (i == numThreads - 1) ? (startRow + rowsPerThread + remainingRows) : (startRow + rowsPerThread);
 
@@ -63,20 +70,25 @@ void pthreadMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int
         pthread_create(&threads[i], nullptr, threadMatrixMultiply, &threadData[i]);
     }
 
-    for (int i = 0; i < numThreads; ++i) {
+    for (int i = 0; i < numThreads; ++i)
+    {
         pthread_join(threads[i], nullptr);
     }
 }
 
-// Funcție de ridicare la putere folosind Pthreads
-void pthreadMatrixPower(Matrix &base, int power, int n, int numThreads) {
+// Pthreads function for matrix power
+void pthreadMatrixPower(Matrix &base, int power, int n, int numThreads)
+{
     Matrix result(n * n, 0);
-    for (int i = 0; i < n; ++i) {
-        result[i * n + i] = 1; // Matricea identitate
+    for (int i = 0; i < n; ++i)
+    {
+        result[i * n + i] = 1; // Identity matrix
     }
 
-    while (power > 0) {
-        if (power % 2 == 1) {
+    while (power > 0)
+    {
+        if (power % 2 == 1)
+        {
             Matrix temp = result;
             pthreadMatrixMultiply(temp, base, result, n, numThreads);
         }
@@ -88,8 +100,8 @@ void pthreadMatrixPower(Matrix &base, int power, int n, int numThreads) {
     base = result;
 }
 
-// Funcție principală
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     auto start = chrono::high_resolution_clock::now();
 
     MPI_Init(&argc, &argv);
@@ -98,7 +110,8 @@ int main(int argc, char *argv[]) {
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
 
-    if (argc < 6) {
+    if (argc < 6)
+    {
         if (rank == 0)
             cerr << "Usage: " << argv[0] << " <input_file> <power> <city_i> <city_j> <num_threads>" << endl;
         MPI_Abort(MPI_COMM_WORLD, 1);
@@ -115,17 +128,21 @@ int main(int argc, char *argv[]) {
     int n;
     Matrix adjMatrix;
 
-    if (rank == 0) {
+    if (rank == 0)
+    {
         ifstream infile(filename);
-        if (!infile) {
+        if (!infile)
+        {
             cerr << "Error opening file: " << filename << endl;
             MPI_Abort(MPI_COMM_WORLD, 1);
         }
 
         infile >> n;
         adjMatrix.resize(n * n);
-        for (int i = 0; i < n; ++i) {
-            for (int j = 0; j < n; ++j) {
+        for (int i = 0; i < n; ++i)
+        {
+            for (int j = 0; j < n; ++j)
+            {
                 infile >> adjMatrix[i * n + j];
             }
         }
@@ -134,7 +151,8 @@ int main(int argc, char *argv[]) {
 
     MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    if (rank != 0) {
+    if (rank != 0)
+    {
         adjMatrix.resize(n * n);
     }
 
@@ -143,10 +161,12 @@ int main(int argc, char *argv[]) {
     int localPower = totalPower / size;
     pthreadMatrixPower(adjMatrix, localPower, n, numThreads);
 
-    if (rank == 0) {
+    if (rank == 0)
+    {
         Matrix finalResult = adjMatrix;
 
-        for (int i = 1; i < size; ++i) {
+        for (int i = 1; i < size; ++i)
+        {
             Matrix recvMatrix(n * n, 0);
             MPI_Recv(recvMatrix.data(), n * n, MPI_LONG_LONG, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             Matrix temp = finalResult;
@@ -155,7 +175,9 @@ int main(int argc, char *argv[]) {
 
         cout << "Number of ways of length " << totalPower << " between city " << city_i << " and city " << city_j << " is: ";
         cout << finalResult[city_i * n + city_j] << endl;
-    } else {
+    }
+    else
+    {
         MPI_Send(adjMatrix.data(), n * n, MPI_LONG_LONG, 0, 0, MPI_COMM_WORLD);
     }
 
@@ -164,7 +186,8 @@ int main(int argc, char *argv[]) {
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> duration = end - start;
 
-    if (rank == 0) {
+    if (rank == 0)
+    {
         cout << "Execution time: " << duration.count() << " seconds" << endl;
     }
 

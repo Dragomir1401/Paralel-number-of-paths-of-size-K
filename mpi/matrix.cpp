@@ -10,28 +10,29 @@ using Matrix = vector<long long>;
 
 const int MOD = 1e9 + 7;
 
-// Funcție pentru a transforma un index 2D în 1D într-o matrice alocată contiguă (versiune constantă)
+// Function to put the matrix as a 1D array 
 inline const long long &getElement(const Matrix &mat, int i, int j, int n) {
     return mat[i * n + j];
 }
 
-// Funcție pentru a transforma un index 2D în 1D într-o matrice alocată contiguă (versiune non-constantă)
+// Function to put the matrix as a 1D array
 inline long long &getElement(Matrix &mat, int i, int j, int n) {
     return mat[i * n + j];
 }
 
-// Funcție pentru înmulțirea paralelă a matricilor folosind MPI
+// Function to multiply two matrices
 void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, int rank, int size) {
-    int rowsPerProcess = (n + size - 1) / size; // Împărțim n în mod echitabil între procese
+    // Spread the work among processes
+    int rowsPerProcess = (n + size - 1) / size;
     int startRow = rank * rowsPerProcess;
     int endRow = min(startRow + rowsPerProcess, n);
 
     Matrix localResult((endRow - startRow) * n, 0);
 
-    // Broadcast pentru întreaga matrice B
+    // Broadcast the whole B matrix
     MPI_Bcast(const_cast<long long *>(B.data()), n * n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    // Calcul local al rândurilor
+    // Calculate the local result
     for (int i = startRow; i < endRow; ++i) {
         for (int j = 0; j < n; ++j) {
             for (int k = 0; k < n; ++k) {
@@ -41,7 +42,7 @@ void mpiMatrixMultiply(const Matrix &A, const Matrix &B, Matrix &result, int n, 
         }
     }
 
-    // Colectare rezultate în procesul root
+    // Collect the results
     MPI_Gather(localResult.data(), (endRow - startRow) * n, MPI_LONG_LONG,
                rank == 0 ? result.data() : nullptr, (endRow - startRow) * n, MPI_LONG_LONG,
                0, MPI_COMM_WORLD);
@@ -89,11 +90,11 @@ int main(int argc, char *argv[]) {
         infile.close();
     }
 
-    // Broadcast pentru dimensiunea matricei și exponent
+    // Broadcast the input data
     MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&k, 1, MPI_INT, 0, MPI_COMM_WORLD);
 
-    // Alocare contiguă pentru matrice în toate procesele
+    // Allocate memory for the matrices
     if (rank != 0) {
         adjMatrix.resize(n * n);
         resultMatrix.resize(n * n);
@@ -101,14 +102,14 @@ int main(int argc, char *argv[]) {
 
     MPI_Bcast(adjMatrix.data(), n * n, MPI_LONG_LONG, 0, MPI_COMM_WORLD);
 
-    // Inițializare matrice identitate
+    //Initialize the result matrix
     Matrix base = adjMatrix;
     resultMatrix.resize(n * n);
     for (int i = 0; i < n; ++i) {
         getElement(resultMatrix, i, i, n) = 1;
     }
 
-    // Ridicare la putere folosind MPI
+    // Raise the adjacency matrix to the power of k
     int originalK = k;
     while (k > 0) {
         if (k % 2 == 1) {
