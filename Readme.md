@@ -256,12 +256,19 @@ We can see how none of the hybrid implementations come close to the level of par
 ### Time comparison between all implementations
 
 - **Phtreads**
+
   <img src="general/images/AllPhtreads.png" alt="MpiVsSerial" width="650" height="500"/>
+
 - **MPI**
+
   <img src="general/images/AllMpi.png" alt="MpiVsSerial" width="650" height="500"/>
+
 - **Hybrid**
+
   <img src="general/images/AllHybrid.png" alt="MpiVsSerial" width="1000" height="500"/>
+
 - **All versions**
+
   <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="950" height="600"/>
 
 We can see how even compared to the enhanced hybrid version, the mpi with 8 processes beats their times with an important margin.
