@@ -271,6 +271,10 @@ We can see how none of the hybrid implementations come close to the level of par
 
   <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="1200" height="700"/>
 
+- **Heatmap**
+
+  <img src="general/images/Heatmap.png" alt="MpiVsSerial" width="800" height="600"/>
+
 We can see how even compared to the enhanced hybrid version, the mpi with 8 processes beats their times with an important margin.
 
 ### **Maximum Parallelism Analysis Using Amdahl's Law**
