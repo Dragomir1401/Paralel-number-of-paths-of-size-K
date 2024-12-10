@@ -1,0 +1,3 @@
+2 procese : 29.71 sec
+4 procese : 15.53 sec
+6 procese : 11.45 sec

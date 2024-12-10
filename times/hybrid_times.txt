@@ -1,0 +1,11 @@
+2 procese, 2 threaduri : 59.16 sec
+2 procese, 4 threaduri : 59.76 sec
+2 procese, 8 threaduri : 58.40 sec
+
+4 procese, 2 threaduri : 35.38 sec
+4 procese, 4 threaduri : 29.13 sec
+4 procese, 8 threaduri : 32.17 sec
+
+8 procese, 2 threaduri : 68.57 sec
+8 procese, 4 threaduri : 61.13 sec
+8 procese, 8 threaduri : 63.24 sec

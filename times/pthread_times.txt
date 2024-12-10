@@ -1,0 +1,3 @@
+2 threaduri : 57.60 sec
+4 threaduri : 30.72 sec
+6 threaduri : 21.98 sec
