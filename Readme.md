@@ -269,7 +269,7 @@ We can see how none of the hybrid implementations come close to the level of par
 
 - **All versions**
 
-  <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="1050" height="600"/>
+  <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="1000" height="600"/>
 
 We can see how even compared to the enhanced hybrid version, the mpi with 8 processes beats their times with an important margin.
 
