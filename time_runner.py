@@ -11,7 +11,6 @@ power = 1000000
 
 os.makedirs(output_dir, exist_ok=True)
 
-# Function to execute a command and record the execution time
 def run_command(command, output_file):
     start_time = time.time()
     result = subprocess.run(command, shell=True, capture_output=True)
@@ -28,13 +27,11 @@ def run_command(command, output_file):
     else:
         print(f"Executed: {command} in {elapsed_time:.2f} seconds")
 
-# Pthreads experiments
 print("Running Pthreads experiments...")
 for threads in [2, 4, 6]:
     command = f"./Pthreads/matrix {input_file} {power} 1 2 {threads}"
     run_command(command, pthreads_output)
 
-# MPI experiments
 print("Running MPI experiments...")
 for processes in [2, 4, 6]:
     make_command = "make -f mpi_makefile"
@@ -42,7 +39,6 @@ for processes in [2, 4, 6]:
     command = f"mpirun --oversubscribe -np {processes} ./matrix {input_file} {power} 1 2"
     run_command(command, mpi_output)
 
-# Hybrid experiments
 print("Running Hybrid MPI + Pthreads experiments...")
 for threads in [2, 4, 8]:
     for processes in [2, 4, 8]:

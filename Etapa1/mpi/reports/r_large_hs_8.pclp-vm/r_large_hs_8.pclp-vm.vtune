@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <rdmgr>
+  <timestamp type="u64_t">1731965185</timestamp>
+  <hostname type="string">pclp-vm</hostname>
+  <os type="string">linux</os>
+  <product type="string">Intel® VTune™ Profiler 2025.0.0 pre-release</product>
+  <buildNumber type="s32_t">629072</buildNumber>
+  <logicalCPUCount type="s32_t">8</logicalCPUCount>
+  <physicalCoreCount type="s32_t">8</physicalCoreCount>
+  <processorPackageCount type="s32_t">8</processorPackageCount>
+  <CPUFrequency type="s64_t">2688012000</CPUFrequency>
+  <CPUFamily type="s32_t">6</CPUFamily>
+  <CPUModel type="s32_t">154</CPUModel>
+  <CPUStepping type="s32_t">3</CPUStepping>
+  <CPUBrandName type="string">12th Gen Intel(R) Core(TM) i7-12700H</CPUBrandName>
+  <isa type="string">avx2</isa>
+  <mpirank type="s32_t">0</mpirank>
+  <collectionTimeBegin type="u64_t">1731965185</collectionTimeBegin>
+  <collectionTimeEnd type="u64_t">1731965198</collectionTimeEnd>
+  <variables>
+   <at type="string">hs</at>
+   <mpirank type="string">0</mpirank>
+  </variables>
+ </rdmgr>
+</root>
