@@ -273,26 +273,36 @@ $$
 
   - 16 threads:
   
-   $$ S = \frac{24.94}{2.23} \approx 11.18 $$
+$$
+S = \frac{24.94}{2.23} \approx 11.18
+$$
 
 - **Medium Matrix**:
 
   - 8 threads:
   
-    $$ S = \frac{95.27}{6.65} \approx 14.33 $$
+$$
+S = \frac{95.27}{6.65} \approx 14.33
+$$
 
   - 16 threads: 
   
-    $$ S = \frac{95.27}{6.42} \approx 14.84 $$
+$$
+S = \frac{95.27}{6.42} \approx 14.84
+$$
 
 - **Large Matrix**:
   - 8 threads: 
   
-  $$ S = \frac{220.89}{13.61} \approx 16.23 $$
+$$
+S = \frac{220.89}{13.61} \approx 16.23
+$$
 
   - 16 threads:
   
-   $$ S = \frac{220.89}{14.92} \approx 14.80 $$
+$$
+S = \frac{220.89}{14.92} \approx 14.80
+$$
 
 #### **MPI Speedup**
 
@@ -302,31 +312,43 @@ Using the same formula:
 
   - 8 processes:
   
-   $$ S = \frac{24.94}{1.24} \approx 20.11 $$
+$$
+S = \frac{24.94}{1.24} \approx 20.11
+$$
 
   - 16 processes:
   
-   $$ S = \frac{24.94}{2.66} \approx 9.38 $$
+$$
+S = \frac{24.94}{2.66} \approx 9.38
+$$
 
 - **Medium Matrix**:
 
   - 8 processes: 
   
-    $$ S = \frac{95.27}{3.42} \approx 27.87 $$
+$$
+S = \frac{95.27}{3.42} \approx 27.87
+$$
 
   - 16 processes:
   
-   $$ S = \frac{95.27}{5.35} \approx 17.81 $$
+$$
+S = \frac{95.27}{5.35} \approx 17.81
+$$
 
 - **Large Matrix**:
 
   - 8 processes: 
   
-  $$ S = \frac{220.89}{7.88} \approx 28.05 $$
+$$
+S = \frac{220.89}{7.88} \approx 28.05
+$$
   
   - 16 processes:
   
-   $$ S = \frac{220.89}{10.97} \approx 20.14 $$
+$$
+S = \frac{220.89}{10.97} \approx 20.14
+$$
 
 ---
 
