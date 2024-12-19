@@ -267,7 +267,9 @@ $$
 
   - 8 threads:
   
-   $$ S = \frac{24.94}{2.18} \approx 11.44 $$
+$$
+S = \frac{24.94}{2.18} \approx 11.44
+$$
 
   - 16 threads:
   
