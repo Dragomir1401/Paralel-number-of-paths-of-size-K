@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     int n;
     infile >> n;
 
-    // validate i and j based on n
+    // Validate i and j based on n
     if (city_i < 0 || city_i >= n || city_j < 0 || city_j >= n)
     {
         cerr << "Invalid city index" << endl;
@@ -91,14 +91,6 @@ int main(int argc, char *argv[])
 
     cout << "Number of ways of length " << k << " between city " << city_i << " and city " << city_j << " is: ";
     cout << resultMatrix[city_i][city_j] << endl;
-
-    /*for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
-            fout << resultMatrix[i][j] << " ";
-        }
-
-        fout << '\n';
-    }*/
 
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> duration = end - start;
