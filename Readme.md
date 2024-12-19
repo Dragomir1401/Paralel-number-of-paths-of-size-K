@@ -54,7 +54,9 @@ $$ small - 300 \times 300 $$
 $$ medium - 450 \times 450 $$
 $$ small - 600 \times 600 $$
 
-All profiling tests have been run with $$ k = 10^{6} $$
+All profiling tests have been run with 
+
+$$ k = 10^{6} $$
 
 <img src="Etapa1/serial/images/Times.png" alt="Input Sizes" width="600" height="350"/>
 
