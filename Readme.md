@@ -183,7 +183,7 @@ This hybrid implementation demonstrates the capability of MPI and PThreads to sc
 
 <img src="Etapa2/Pthreads_MPI/images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
 
-### Time comparison between all implementations
+## Time comparison between all implementations
 
 - **Phtreads**
 
@@ -265,17 +265,32 @@ $$
 
 - **Small Matrix**:
 
-  - 8 threads: $$ S = \frac{24.94}{2.18} \approx 11.44 $$
-  - 16 threads: $$ S = \frac{24.94}{2.23} \approx 11.18 $$
+  - 8 threads:
+  
+   $$ S = \frac{24.94}{2.18} \approx 11.44 $$
+
+  - 16 threads:
+  
+   $$ S = \frac{24.94}{2.23} \approx 11.18 $$
 
 - **Medium Matrix**:
 
-  - 8 threads: $$ S = \frac{95.27}{6.65} \approx 14.33 $$
-  - 16 threads: $$ S = \frac{95.27}{6.42} \approx 14.84 $$
+  - 8 threads:
+  
+    $$ S = \frac{95.27}{6.65} \approx 14.33 $$
+
+  - 16 threads: 
+  
+    $$ S = \frac{95.27}{6.42} \approx 14.84 $$
 
 - **Large Matrix**:
-  - 8 threads: $$ S = \frac{220.89}{13.61} \approx 16.23 $$
-  - 16 threads: $$ S = \frac{220.89}{14.92} \approx 14.80 $$
+  - 8 threads: 
+  
+  $$ S = \frac{220.89}{13.61} \approx 16.23 $$
+
+  - 16 threads:
+  
+   $$ S = \frac{220.89}{14.92} \approx 14.80 $$
 
 #### **MPI Speedup**
 
@@ -283,17 +298,33 @@ Using the same formula:
 
 - **Small Matrix**:
 
-  - 8 processes: $$ S = \frac{24.94}{1.24} \approx 20.11 $$
-  - 16 processes: $$ S = \frac{24.94}{2.66} \approx 9.38 $$
+  - 8 processes:
+  
+   $$ S = \frac{24.94}{1.24} \approx 20.11 $$
+
+  - 16 processes:
+  
+   $$ S = \frac{24.94}{2.66} \approx 9.38 $$
 
 - **Medium Matrix**:
 
-  - 8 processes: $$ S = \frac{95.27}{3.42} \approx 27.87 $$ (**Not possible** due to overhead miscalculation)
-  - 16 processes: $$ S = \frac{95.27}{5.35} \approx 17.81 $$
+  - 8 processes: 
+  
+    $$ S = \frac{95.27}{3.42} \approx 27.87 $$
+
+  - 16 processes:
+  
+   $$ S = \frac{95.27}{5.35} \approx 17.81 $$
 
 - **Large Matrix**:
-  - 8 processes: $$ S = \frac{220.89}{7.88} \approx 28.05 $$ (**Not possible** due to overhead miscalculation)
-  - 16 processes: $$ S = \frac{220.89}{10.97} \approx 20.14 $$
+
+  - 8 processes: 
+  
+  $$ S = \frac{220.89}{7.88} \approx 28.05 $$
+  
+  - 16 processes:
+  
+   $$ S = \frac{220.89}{10.97} \approx 20.14 $$
 
 ---
 
