@@ -114,9 +114,6 @@ int main(int argc, char *argv[]) {
     int city_j = stoi(argv[4]);
     int numThreads = stoi(argv[5]);
 
-    // Check if the number of threads is a power of 2
-    //assert(numThreads > 0 && (numThreads & (numThreads - 1)) == 0);
-
     int n;
     Matrix adjMatrix, resultMatrix;
 

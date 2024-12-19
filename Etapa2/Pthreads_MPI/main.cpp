@@ -82,7 +82,7 @@ void pthreadMatrixPower(Matrix &base, int power, int n, int numThreads)
     Matrix result(n * n, 0);
     for (int i = 0; i < n; ++i)
     {
-        result[i * n + i] = 1; // Identity matrix
+        result[i * n + i] = 1;
     }
 
     while (power > 0)
