@@ -1,3 +1,5 @@
+OpenMP:
+
 Small: 8 threaduri - 2.33 sec
        16 threaduri - 2.45 sec
 
@@ -9,3 +11,9 @@ Large: 2 threaduri - 52.3415 sec
        6 threaduri - 19.51 sec
        8 threaduri - 17.06 sec
        16 threaduri - 16.07 sec
+
+Serial:
+
+small: 24.9444 seconds
+medium: 95.2735 seconds
+large: 220.889 seconds

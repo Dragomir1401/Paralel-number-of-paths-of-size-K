@@ -8,6 +8,7 @@ large:  -8: 7.87784 seconds
         -16: 10.9679 seconds
 
 Serial:
+
 small: 24.9444 seconds
 medium: 95.2735 seconds
 large: 220.889 seconds

@@ -1,3 +1,5 @@
+Hybrid:
+
 Small:
 - 8 threads, 8 processes:   6.13678 seconds
 - 8 threads, 16 processes:  14.1339 seconds
@@ -16,4 +18,8 @@ Large:
 - 16 threads, 8 processes:  50.6849 seconds
 - 16 threads, 16 processes: 104.953 seconds
 
-Timpii
+Serial:
+
+small: 24.9444 seconds
+medium: 95.2735 seconds
+large: 220.889 seconds
