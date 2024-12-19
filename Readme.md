@@ -11,8 +11,11 @@ This algorithm serves as a load balancer guide for very big maps in order to fin
 ## Complexity
 
 - **Time Complexity:**
+
 $$ O(n^3 \times \log(k)) $$
+
 - **Space Complexity:** 
+
 $$ O(n^2) $$
 
 ### Proposal of solution
