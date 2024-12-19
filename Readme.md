@@ -51,7 +51,7 @@ $$ small - 600 \times 600 $$
 
 All profiling tests have been run with $$ k = 10^{6} $$
 
-<img src="serial/images/Times.png" alt="Input Sizes" width="600" height="350"/>
+<img src="Etapa1/serial/images/Times.png" alt="Input Sizes" width="600" height="350"/>
 
 ## Compilation
 
@@ -71,16 +71,6 @@ Power is the size of the road we are targetting.
 City i is the source.
 City j is the destination.
 ```
-
-## Profiling
-
-<img src="serial/images/Large_SS_Hotspots.png" alt="Hotspots" width="850" height="300"/>
-
-We can see that most of the time is spent in the matrix multiplication function as expected with a complexity of $$ O(n^3) $$
-
-<img src="serial/images/OnlyOneThread.png" alt="Input Sizes Times" width="1000" height="300"/>
-
-As VTune indicates the the thread usage is very poor and needs improvements.
 
 ## Pseudocode
 
@@ -114,88 +104,41 @@ Main function
 
   Print "Paths of length " + k + " between " + city_i + " and " + city_j + ": " + resultMatrix[city_i][city_j]
 ```
-
-# Pthreads Implementation
-
-We will use Pthreads to parallelize the matrix multiplication function. We will split the matrix into blocks and each thread will compute a block of the result matrix.
-
-### Serial vs Pthreads time comparison
-
-<img src="Pthreads/images/serial_vs_pthreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
-
-### Pthreads number of threads comparison
-
-<img src="Pthreads/images/grafic_liniar_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="500"/>
-
-<img src="Pthreads/images/grafic_turn_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="300"/>
-
-### Pthreads profiling
-
-- **8 threads**
-
-<img src="Pthreads/images/8threadsVtune.png" alt="PthreadsVsSerial" width="800" height="360"/>
-
-- **16 threads**
-
-<img src="Pthreads/images/16threadsVtune.png" alt="PthreadsVsSerial" width="800" height="360"/>
-
-### Pthreads Hotspots
-
-- **8 threads**
-
-<img src="Pthreads/images/hotspots8threads.png" alt="PthreadsVsSerial" width="800" height="260"/>
-
-- We can see how the profiller says that most of the time is spent inside the multiply matrices function and the other significant part is spent in the threads creation logic.
-
-- **16 threads**
-
-<img src="Pthreads/images/hotspots16threads.png" alt="PthreadsVsSerial" width="800" height="260"/>
-
-- Same scenario as in the 8 threads version, most of the time is spent as expected inside the multiplication function.
-
-# MPI Implementation
+# Stage 1 - MPI Implementation
 
 We will use MPI to parallelize the actual matrix multiplication by sending each process a piece of the matrix.
 
 ### Serial vs MPI time comparison
 
-<img src="mpi/images/grafic_mpi_8_16_serial.png" alt="MpiVsSerial" width="800" height="500"/>
+<img src="Etapa1/mpi/images/grafic_mpi_8_16_serial.png" alt="MpiVsSerial" width="800" height="500"/>
 
 ### MPI number of processes comparison
 
-<img src="mpi/images/grafic_liniar_8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="500"/>
+<img src="Etapa1/mpi/images/grafic_liniar_8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
-<img src="mpi/images/grafic_vertical8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="300"/>
-
-### MPI profiling
-
-- **8 processes**
-
-<img src="mpi/images/8mpiCores.png" alt="PthreadsVsSerial" width="800" height="300"/>
-
-- **16 processes**
-
-<img src="mpi/images/16mpiCores.png" alt="PthreadsVsSerial" width="800" height="300"/>
-
-### MPI profiling
-
-- **8 processes**
-
-<img src="mpi/images/8mpiHotspots.png" alt="PthreadsVsSerial" width="800" height="300"/>
-
-- We can see the increased performance and no red flag indicated by the profiller when we run with a mapping of 1:1 process to cores.
-
-- **16 processes**
-
-<img src="mpi/images/16mpiHotspots.png" alt="PthreadsVsSerial" width="800" height="340"/>
-
-- We can see how the profiller suggests that the MPI_Bcast si PMPI_GAther takes too much time for this 16 processes version. That can be due to the fact that this interprocess communication is harder when ran with 16 processes on 8 physical cores. That was not the case when the mapping of processes per core was 1:1.
+<img src="Etapa1/mpi/images/grafic_vertical8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
 ### MPI vs Pthreads vs Serial
 
 <img src="general/images/mpiVsPthreadsVsSerial.png" alt="PthreadsVsSerial" width="800" height="450"/>
 
-### Hybrid MPI - PThreads implementation
+# Stage 1 - OpenMP Implementation
+
+# Stage 2 - Pthreads Implementation
+
+We will use Pthreads to parallelize the matrix multiplication function. We will split the matrix into blocks and each thread will compute a block of the result matrix.
+
+### Serial vs Pthreads time comparison
+
+<img src="Etapa2/Pthreads/images/serial_vs_pthreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+
+### Pthreads number of threads comparison
+
+<img src="Etapa2/Pthreads/images/grafic_liniar_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+
+<img src="Etapa2/Pthreads/images/grafic_turn_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="300"/>
+
+###  Stage 2 - Hybrid MPI - PThreads implementation
 
 In order to further experiment with the possibility of using parallel programming for this problem, we implemented a hybrid solution combining MPI and PThreads. This implementation is designed to parallelize the computation of matrix exponentiation for determining the number of paths of size \( k \) between cities, represented in the adjacency matrix of the graph.
 
@@ -229,29 +172,9 @@ This hybrid implementation demonstrates the capability of MPI and PThreads to sc
 
 ### Hybrid MPI - Pthreads vs Serial
 
-<img src="Pthreads_MPI/images/Threads_MPI_Serial.png" alt="MpiVsSerial" width="800" height="500"/>
+<img src="Etapa2/Pthreads_MPI/images/Threads_MPI_Serial.png" alt="MpiVsSerial" width="800" height="500"/>
 
-<img src="Pthreads_MPI/images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
-
-### Hybrid MPI - Pthreads Profiling
-
-- **8 threads and 8 processes**
-
-<img src="Pthreads_MPI/images/88Profiler.png" alt="MpiVsSerial" width="800" height="600"/>
-
-- **8 threads and 16 processes**
-
-<img src="Pthreads_MPI/images/8t16pProfiler.png" alt="MpiVsSerial" width="800" height="600"/>
-
-- **16 threads and 8 processes**
-
-<img src="Pthreads_MPI/images/16t8pProfiler.png" alt="MpiVsSerial" width="800" height="600"/>
-
-- **16 threads and 16 processes**
-
-<img src="Pthreads_MPI/images/16t16pProfiler.png" alt="MpiVsSerial" width="800" height="600"/>
-
-We can see how none of the hybrid implementations come close to the level of paralellism obtained by the solely MPI implementation.
+<img src="Etapa2/Pthreads_MPI/images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
 
 ### Time comparison between all implementations
 
@@ -399,11 +322,3 @@ Revised theoretical maximum speedup for MPI is approximately **27.78x**.
 - **Theoretical Limit**: For \( P = 0.95 \), the theoretical limit remains **20x**, but higher parallelizability \( P = 0.964 \) in MPI increases the limit to **27.78x**.
 
 This revised limit aligns with practical observations while respecting Amdahl's Law.
-
-# Timeline
-
-- **12 November 2024** - Project documentation and serial implementation. Profiling for serial code.
-- **19 November 2024** - Parallel implementation with Pthreads. Time comparisons and profiling on parallel code. Pthreads vs Serial comparison.
-- **26 November 2024** - MPI implementation. Time comparisons and profiling on parallel code. MPI vs Serial comparison.
-- **3 December 2024** - Hybrid MPI - Pthreads implementation, time measurements and profiling on this version.
-- **10 December 2024** - Added time measurements for 2, 4, 6 variants. Added time comparison between all versions of an variant and between all variants.
