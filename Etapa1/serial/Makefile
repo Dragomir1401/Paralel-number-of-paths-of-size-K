@@ -1,3 +1,5 @@
+# Makefile for Serial Program
+
 # Detect the operating system
 ifeq ($(OS),Windows_NT)
     # Windows settings
@@ -24,6 +26,12 @@ all: $(TARGET)
 $(TARGET): $(SRCS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SRCS)
 
+# Run the program with default parameters
+.PHONY: run
+run: $(TARGET)
+	./$(TARGET) ../../in/small.txt 1000000 1 2
+
 # Clean up the build
+.PHONY: clean
 clean:
 	$(RM) $(TARGET)
