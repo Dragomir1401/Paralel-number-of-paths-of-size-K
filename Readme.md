@@ -58,7 +58,7 @@ All profiling tests have been run with
 
 $$ k = 10^{6} $$
 
-<img src="Etapa1/serial/images/Times.png" alt="Input Sizes" width="600" height="350"/>
+<img src="images/Times.png" alt="Input Sizes" width="600" height="350"/>
 
 ## Compilation
 
@@ -117,31 +117,31 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 ### Serial vs MPI time comparison
 
-<img src="Etapa1/mpi/images/grafic_mpi_8_16_serial.png" alt="MpiVsSerial" width="800" height="500"/>
+<img src="images/grafic_mpi_8_16_serial.png" alt="MpiVsSerial" width="800" height="500"/>
 
 ### MPI number of processes comparison
 
-<img src="Etapa1/mpi/images/grafic_liniar_8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="500"/>
+<img src="images/grafic_liniar_8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
-<img src="Etapa1/mpi/images/grafic_vertical8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="300"/>
+<img src="images/grafic_vertical8vs16_procese.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
 ### MPI vs Pthreads vs Serial
 
-<img src="general/images/mpiVsPthreadsVsSerial.png" alt="PthreadsVsSerial" width="800" height="450"/>
+<img src="images/mpiVsPthreadsVsSerial.png" alt="PthreadsVsSerial" width="800" height="450"/>
 
 # Stage 1 - OpenMP Implementation
 
 ### OpenMP times
 
-<img src="Etapa1/openmp/images/openmp_size_time_comparison.png" alt="MpiVsSerial" width="800" height="500"/>
+<img src="images/openmp_size_time_comparison.png" alt="MpiVsSerial" width="800" height="500"/>
 
 ### OpenMP vs Serial
 
-<img src="Etapa1/openmp/images/openmp_vs_serial.png" alt="PthreadsVsSerial" width="800" height="450"/>
+<img src="images/openmp_vs_serial.png" alt="PthreadsVsSerial" width="800" height="450"/>
 
 ### OpenMP vs MPI
 
-<img src="Etapa1/openmp/images/openmp_vs_mpi.png" alt="PthreadsVsSerial" width="800" height="450"/>
+<img src="images/openmp_vs_mpi.png" alt="PthreadsVsSerial" width="800" height="450"/>
 
 # Stage 2 - Pthreads Implementation
 
@@ -149,13 +149,13 @@ We will use Pthreads to parallelize the matrix multiplication function. We will 
 
 ### Serial vs Pthreads time comparison
 
-<img src="Etapa2/Pthreads/images/serial_vs_pthreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+<img src="images/serial_vs_pthreads.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
 ### Pthreads number of threads comparison
 
-<img src="Etapa2/Pthreads/images/grafic_liniar_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="500"/>
+<img src="images/grafic_liniar_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="500"/>
 
-<img src="Etapa2/Pthreads/images/grafic_turn_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="300"/>
+<img src="images/grafic_turn_8_16_threads.png" alt="PthreadsVsSerial" width="800" height="300"/>
 
 ###  Stage 2 - Hybrid MPI - PThreads implementation
 
@@ -191,31 +191,31 @@ This hybrid implementation demonstrates the capability of MPI and PThreads to sc
 
 ### Hybrid MPI - Pthreads vs Serial
 
-<img src="Etapa2/Pthreads_MPI/images/Threads_MPI_Serial.png" alt="MpiVsSerial" width="800" height="500"/>
+<img src="images/Threads_MPI_Serial.png" alt="MpiVsSerial" width="800" height="500"/>
 
-<img src="Etapa2/Pthreads_MPI/images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
+<img src="images/grafic_turn_threads_processes.png" alt="MpiVsSerial" width="800" height="400"/>
 
 ## Time comparison between all implementations
 
 - **Phtreads**
 
-  <img src="general/images/AllPhtreads.png" alt="MpiVsSerial" width="650" height="500"/>
+  <img src="images/AllPhtreads.png" alt="MpiVsSerial" width="650" height="500"/>
 
 - **MPI**
 
-  <img src="general/images/AllMpi.png" alt="MpiVsSerial" width="650" height="500"/>
+  <img src="images/AllMpi.png" alt="MpiVsSerial" width="650" height="500"/>
 
 - **Hybrid**
 
-  <img src="general/images/AllHybrid.png" alt="MpiVsSerial" width="1000" height="500"/>
+  <img src="images/AllHybrid.png" alt="MpiVsSerial" width="1000" height="500"/>
 
 - **All versions**
 
-  <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="1000" height="450"/>
+  <img src="images/AllComparison.png" alt="MpiVsSerial" width="1000" height="450"/>
 
 - **Heatmap**
 
-  <img src="general/images/heatmap.png" alt="MpiVsSerial" width="800" height="600"/>
+  <img src="images/heatmap.png" alt="MpiVsSerial" width="800" height="600"/>
 
 We can see how even compared to the enhanced hybrid version, the mpi with 8 processes beats their times with an important margin.
 
