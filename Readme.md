@@ -2,6 +2,18 @@
 
 #### Dragomir Andrei, Marinescu Alexandru, 343C1
 
+# ⚠️ **NOTICE** ⚠️
+
+### ⚠️ TO SEE THE README CORRECTLY  ⚠️
+
+> In order to see the readme correctly access:
+https://github.com/Dragomir1401/Paralel-number-of-paths-of-size-K.
+---
+> The archive was too big to include them as well.
+
+---
+
+
 ## Overview
 
 Let say we have n cities that are connected somehow to one another. If city A is connected to city B then we say that there is a road of length one between them, meaning it takes an hour to complete. We want to find out how many roads which would take k hours to complete are between any cities in the map. The naive solution would compute all the possible roads, but we have a better option.
