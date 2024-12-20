@@ -1,3 +1,5 @@
+# Makefile for MPI program
+
 # Detect the operating system
 ifeq ($(OS),Windows_NT)
     # Windows settings
@@ -16,11 +18,11 @@ endif
 # Source file
 SRC = matrix.cpp
 
-# Number of processes for mpirun
-NPROCS = 8
+# Default number of processes
+NPROCS ?= 8
 
 # Arguments for the executable
-ARGS = ../in/small.txt 1000000 1 2
+ARGS = ../../in/small.txt 1000000 1 2
 
 # Default target
 all: $(TARGET)
@@ -32,7 +34,7 @@ $(TARGET): $(SRC)
 # Run target
 .PHONY: run
 run: $(TARGET)
-	@mpirun -np $(NPROCS) ./$(TARGET) $(ARGS)
+	@mpirun --oversubscribe -np $(NPROCS) ./$(TARGET) $(ARGS)
 
 # Clean target
 .PHONY: clean

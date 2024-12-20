@@ -16,4 +16,4 @@ clean:
 	rm -f $(OBJS) $(TARGET)
 
 run:
-	mpirun --oversubscribe -np 16 ./$(TARGET) ../in/large.txt 1000000 1 2 16
+	mpirun --oversubscribe -np 16 ./$(TARGET) ../../in/small.txt 1000000 1 2 16
