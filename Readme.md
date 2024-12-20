@@ -265,17 +265,6 @@ The execution times for the serial implementation are:
 
 ---
 
-### **Theoretical Maximum Speedup**
-
-Using Amdahl's Law with **P = 0.95**:
-
-$$
-S_{\text{max}} = \frac{1}{1 - P} = \frac{1}{1 - 0.95} = 20
-$$
-
-The theoretical maximum speedup achievable with perfect parallelism is **20x**.
-
----
 
 ### **Observed Speedup**
 
@@ -378,8 +367,6 @@ $$
 
 ### **Revised Theoretical Speedup for MPI**
 
-The observed MPI speedup exceeding the theoretical limit of 20x suggests an error in time measurement or overhead handling. Recalculating for MPI:
-
 From **Large Matrix, 8 Processes**:
 
 $$
@@ -396,8 +383,6 @@ $$
 S_{\text{max}} = \frac{1}{1 - P} = \frac{1}{1 - 0.964} \approx 27.78
 $$
 
-Revised theoretical maximum speedup for MPI is approximately **27.78x**.
-
 ---
 
 ### **Observations**
@@ -405,6 +390,3 @@ Revised theoretical maximum speedup for MPI is approximately **27.78x**.
 - **Pthreads**: Diminishing returns as the number of threads increases, likely due to overhead from thread creation and memory contention.
 - **MPI**: Displays better scalability but suffers from communication overhead for large process counts, particularly when exceeding physical core count.
 
-- **Theoretical Limit**: For \( P = 0.95 \), the theoretical limit remains **20x**, but higher parallelizability \( P = 0.964 \) in MPI increases the limit to **27.78x**.
-
-This revised limit aligns with practical observations while respecting Amdahl's Law.
