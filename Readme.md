@@ -211,7 +211,7 @@ This hybrid implementation demonstrates the capability of MPI and PThreads to sc
 
 - **All versions**
 
-  <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="1400" height="700"/>
+  <img src="general/images/AllComparison.png" alt="MpiVsSerial" width="1000" height="500"/>
 
 - **Heatmap**
 
