@@ -131,6 +131,18 @@ We will use MPI to parallelize the actual matrix multiplication by sending each 
 
 # Stage 1 - OpenMP Implementation
 
+### OpenMP times
+
+<img src="Etapa1/openmp/images/openmp_size_time_comparison.png" alt="MpiVsSerial" width="800" height="500"/>
+
+### OpenMP vs Serial
+
+<img src="Etapa1/openmp/images/openmp_vs_serial.png" alt="PthreadsVsSerial" width="800" height="450"/>
+
+### OpenMP vs MPI
+
+<img src="Etapa1/openmp/images/openmp_vs_mpi.png" alt="PthreadsVsSerial" width="800" height="450"/>
+
 # Stage 2 - Pthreads Implementation
 
 We will use Pthreads to parallelize the matrix multiplication function. We will split the matrix into blocks and each thread will compute a block of the result matrix.
